@@ -1,0 +1,97 @@
+{
+  "theme": "light",
+  "archetype": "4 (Swiss & High-Contrast - Modified for TUB Brand)",
+  "design_philosophy": "Institutional clarity. The design faithfully replicates the TUB web identity (dark blue #017cb7 and light blue #01a7f4) while providing a frictionless, F-pattern optimized dashboard for internal employees to analyze non-conformities.",
+  "colors": {
+    "primary": "#017cb7",
+    "primary_hover": "#01a7f4",
+    "background": "#F8FAFC",
+    "surface": "#FFFFFF",
+    "text_primary": "#0F172A",
+    "text_secondary": "#475569",
+    "border": "#E2E8F0",
+    "success": "#10B981",
+    "warning": "#F59E0B",
+    "danger": "#EF4444"
+  },
+  "typography": {
+    "heading_font": "Outfit",
+    "body_font": "Work Sans",
+    "hierarchy": {
+      "h1": "text-3xl sm:text-4xl font-semibold tracking-tight text-slate-900",
+      "h2": "text-xl sm:text-2xl font-semibold tracking-tight text-slate-900",
+      "h3": "text-lg font-medium text-slate-900",
+      "body": "text-base text-slate-600 leading-relaxed",
+      "small": "text-sm text-slate-500",
+      "kpi_value": "text-4xl font-bold tracking-tighter text-[#017cb7]",
+      "kpi_label": "text-xs font-semibold tracking-[0.1em] uppercase text-slate-500"
+    }
+  },
+  "layout_and_spacing": {
+    "spacing_scale": "Generous internal padding. Cards use p-6 or p-8.",
+    "page_wrapper": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8",
+    "grid_system": {
+      "kpi_row": "grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6 mb-8",
+      "bento_home": "grid grid-cols-1 md:grid-cols-3 gap-8"
+    }
+  },
+  "components": {
+    "header": {
+      "style": "bg-[#017cb7] text-white sticky top-0 z-50 shadow-md",
+      "nav_container": "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between",
+      "nav_links": "text-white/80 hover:text-white transition-colors font-medium text-sm uppercase tracking-wide px-4 py-2 rounded-md hover:bg-white/10",
+      "active_link": "bg-[#01a7f4] text-white"
+    },
+    "kpi_card": {
+      "style": "bg-white rounded-lg border border-slate-200 shadow-sm p-6 flex flex-col justify-between hover:shadow-md transition-shadow duration-200",
+      "icon_wrapper": "h-10 w-10 rounded-full bg-blue-50 flex items-center justify-center text-[#017cb7] mb-4"
+    },
+    "power_bi_wrapper": {
+      "style": "bg-white rounded-lg border border-slate-200 shadow-sm overflow-hidden min-h-[700px] w-full relative",
+      "iframe": "absolute inset-0 w-full h-full border-0"
+    },
+    "home_nav_card": {
+      "style": "group relative bg-white rounded-xl border border-slate-200 shadow-sm overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 cursor-pointer h-64",
+      "image_overlay": "absolute inset-0 bg-[#017cb7]/80 mix-blend-multiply group-hover:bg-[#017cb7]/60 transition-colors duration-300 z-10",
+      "image": "absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700 group-hover:scale-105",
+      "content": "relative p-8 h-full flex flex-col justify-end text-white z-20"
+    }
+  },
+  "motion_and_interactions": {
+    "hover_states": "Buttons and links must have explicit hover states (e.g., hover:bg-[#01a7f4]). Cards lift slightly (-translate-y-1) and increase shadow on hover.",
+    "transitions": "Use transition-all duration-200 ease-in-out for standard interactions."
+  },
+  "icons": {
+    "library": "lucide-react",
+    "instructions": "Use lucide-react for standard UI icons (e.g., LayoutDashboard, AlertTriangle, ArrowRight, BarChart3, Activity, Clock, RotateCcw)."
+  },
+  "media": {
+    "image_urls": {
+      "home_hero_bg": {
+        "url": "https://images.unsplash.com/photo-1759674406716-9645dcddd353?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBjaXR5JTIwYnVzJTIwdHJhbnNpdHxlbnwwfHx8fDE3NzYwOTM4ODN8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Modern city bus used for the 'Acertos' homepage navigation card."
+      },
+      "home_card_bg_1": {
+        "url": "https://images.unsplash.com/photo-1761760178065-f45ba583a014?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBjaXR5JTIwYnVzJTIwdHJhbnNpdHxlbnwwfHx8fDE3NzYwOTM4ODN8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Bus interior/reflections used for the 'Trocas' homepage navigation card."
+      },
+      "home_card_bg_2": {
+        "url": "https://images.unsplash.com/photo-1765034511020-fbf315b3134c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjaXR5JTIwYnVzJTIwdHJhbnNpdHxlbnwwfHx8fDE3NzYwOTM4ODN8MA&ixlib=rb-4.1.0&q=85",
+        "description": "Yellow bus used for the 'Faltas de Circulação' homepage navigation card."
+      }
+    }
+  },
+  "testing": {
+    "instructions": "All interactive and key informational elements MUST include a data-testid attribute in kebab-case (e.g., data-testid='nav-acertos', data-testid='kpi-total-acertos')."
+  },
+  "instructions_to_main_agent": [
+    "Build the UI focusing heavily on the TUB brand colors. Use #017cb7 for the header and #01a7f4 for active/hover navigation states.",
+    "The layout must have a sticky header with navigation to the 3 main areas: Acertos, Trocas, and Faltas de Circulação.",
+    "The homepage should feature a welcoming header text and 3 large navigation cards linking to the analytics pages. Each card should use one of the bus images provided in 'media' with a strong blue (#017cb7/80) overlay so the white text pops.",
+    "Each analytics page (Acertos, Trocas, Faltas de Circulação) must have a top row of 3-4 KPI cards (mock the data conceptually relevant to the domain) and a large, full-width container for the Power BI iframe.",
+    "MOCK the Power BI iframe by using an empty iframe with a subtle placeholder background or an embedded sample video/iframe if available, ensuring it spans min-height 700px.",
+    "Ensure the fonts Outfit (for headings) and Work Sans (for body) are imported and applied correctly.",
+    "Strictly follow the F-pattern for dashboards: Navigation top, KPIs top-left to top-right, Data/Charts below.",
+    "Include data-testid on every clickable or important element."
+  ]
+}
