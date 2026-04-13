@@ -10,63 +10,92 @@ from typing import List
 import uuid
 from datetime import datetime, timezone
 
-
 ROOT_DIR = Path(__file__).parent
 load_dotenv(ROOT_DIR / '.env')
 
-# MongoDB connection
 mongo_url = os.environ['MONGO_URL']
 client = AsyncIOMotorClient(mongo_url)
 db = client[os.environ['DB_NAME']]
 
-# Create the main app without a prefix
 app = FastAPI()
-
-# Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
 
-# Define Models
-class StatusCheck(BaseModel):
-    model_config = ConfigDict(extra="ignore")  # Ignore MongoDB's _id field
-    
-    id: str = Field(default_factory=lambda: str(uuid.uuid4()))
-    client_name: str
-    timestamp: datetime = Field(default_factory=lambda: datetime.now(timezone.utc))
+class KPIData(BaseModel):
+    label: str
+    value: str
+    change: str
+    trend: str  # "up" or "down"
+    icon: str
 
-class StatusCheckCreate(BaseModel):
-    client_name: str
 
-# Add your routes to the router instead of directly to app
+class AreaKPIs(BaseModel):
+    area: str
+    kpis: List[KPIData]
+
+
 @api_router.get("/")
 async def root():
-    return {"message": "Hello World"}
+    return {"message": "TUB - Plataforma de Não Conformidades"}
 
-@api_router.post("/status", response_model=StatusCheck)
-async def create_status_check(input: StatusCheckCreate):
-    status_dict = input.model_dump()
-    status_obj = StatusCheck(**status_dict)
-    
-    # Convert to dict and serialize datetime to ISO string for MongoDB
-    doc = status_obj.model_dump()
-    doc['timestamp'] = doc['timestamp'].isoformat()
-    
-    _ = await db.status_checks.insert_one(doc)
-    return status_obj
 
-@api_router.get("/status", response_model=List[StatusCheck])
-async def get_status_checks():
-    # Exclude MongoDB's _id field from the query results
-    status_checks = await db.status_checks.find({}, {"_id": 0}).to_list(1000)
-    
-    # Convert ISO string timestamps back to datetime objects
-    for check in status_checks:
-        if isinstance(check['timestamp'], str):
-            check['timestamp'] = datetime.fromisoformat(check['timestamp'])
-    
-    return status_checks
+@api_router.get("/health")
+async def health():
+    return {"status": "ok"}
 
-# Include the router in the main app
+
+@api_router.get("/kpis/acertos", response_model=AreaKPIs)
+async def get_acertos_kpis():
+    return AreaKPIs(
+        area="Acertos",
+        kpis=[
+            KPIData(label="Total Acertos", value="1.247", change="+12%", trend="up", icon="CheckCircle"),
+            KPIData(label="Acertos Resolvidos", value="1.089", change="+8%", trend="up", icon="CircleCheck"),
+            KPIData(label="Pendentes", value="158", change="-5%", trend="down", icon="Clock"),
+            KPIData(label="Taxa de Resolução", value="87.3%", change="+2.1%", trend="up", icon="TrendingUp"),
+        ]
+    )
+
+
+@api_router.get("/kpis/trocas", response_model=AreaKPIs)
+async def get_trocas_kpis():
+    return AreaKPIs(
+        area="Trocas",
+        kpis=[
+            KPIData(label="Total Trocas", value="834", change="+6%", trend="up", icon="ArrowLeftRight"),
+            KPIData(label="Trocas Aprovadas", value="712", change="+10%", trend="up", icon="CircleCheck"),
+            KPIData(label="Em Análise", value="98", change="-3%", trend="down", icon="Search"),
+            KPIData(label="Taxa de Aprovação", value="85.4%", change="+1.8%", trend="up", icon="TrendingUp"),
+        ]
+    )
+
+
+@api_router.get("/kpis/faltas", response_model=AreaKPIs)
+async def get_faltas_kpis():
+    return AreaKPIs(
+        area="Faltas de Circulação",
+        kpis=[
+            KPIData(label="Total Faltas", value="312", change="-15%", trend="down", icon="AlertTriangle"),
+            KPIData(label="Faltas Justificadas", value="189", change="+4%", trend="up", icon="FileCheck"),
+            KPIData(label="Não Justificadas", value="123", change="-22%", trend="down", icon="XCircle"),
+            KPIData(label="Taxa de Justificação", value="60.6%", change="+5.3%", trend="up", icon="TrendingUp"),
+        ]
+    )
+
+
+@api_router.get("/overview")
+async def get_overview():
+    return {
+        "total_nao_conformidades": "2.393",
+        "taxa_resolucao_global": "78.2%",
+        "areas": [
+            {"name": "Acertos", "count": "1.247", "icon": "CheckCircle"},
+            {"name": "Trocas", "count": "834", "icon": "ArrowLeftRight"},
+            {"name": "Faltas de Circulação", "count": "312", "icon": "AlertTriangle"},
+        ]
+    }
+
+
 app.include_router(api_router)
 
 app.add_middleware(
@@ -77,12 +106,12 @@ app.add_middleware(
     allow_headers=["*"],
 )
 
-# Configure logging
 logging.basicConfig(
     level=logging.INFO,
     format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
 )
 logger = logging.getLogger(__name__)
+
 
 @app.on_event("shutdown")
 async def shutdown_db_client():
