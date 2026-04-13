@@ -8,10 +8,7 @@ import {
   Activity,
   BarChart3,
 } from "lucide-react";
-import axios from "axios";
-
-const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
-const API = `${BACKEND_URL}/api`;
+import KPI_DATA from "../config/kpiData";
 
 const areaCards = [
   {
@@ -41,11 +38,6 @@ const areaCards = [
       "https://images.unsplash.com/photo-1765034511020-fbf315b3134c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjaXR5JTIwYnVzJTIwdHJhbnNpdHxlbnwwfHx8fDE3NzYwOTM4ODN8MA&ixlib=rb-4.1.0&q=85",
   },
 ];
-
-async function fetchOverview() {
-  const res = await axios.get(`${API}/overview`);
-  return res.data;
-}
 
 const StatCard = ({ label, value }) => (
   <div className="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4 border border-white/20">
@@ -94,19 +86,7 @@ const AreaNavCard = ({ card, index }) => {
 };
 
 export default function HomePage() {
-  const [overview, setOverview] = useState(null);
-
-  const loadOverview = useCallback(async () => {
-    try {
-      setOverview(await fetchOverview());
-    } catch (err) {
-      console.error("Failed to load overview", err);
-    }
-  }, []);
-
-  useEffect(() => {
-    loadOverview();
-  }, [loadOverview]);
+  const overview = KPI_DATA.overview;
 
   return (
     <div className="min-h-screen">
@@ -133,20 +113,18 @@ export default function HomePage() {
           </div>
 
           {/* Overview Stats */}
-          {overview && (
-            <div
-              data-testid="home-overview-stats"
-              className="mt-10 flex flex-wrap gap-6"
-            >
-              <StatCard
-                label="Total Nao Conformidades"
-                value={overview.total_nao_conformidades}
-              />
-              {overview.areas?.map((area) => (
-                <StatCard key={area.name} label={area.name} value={area.count} />
-              ))}
-            </div>
-          )}
+          <div
+            data-testid="home-overview-stats"
+            className="mt-10 flex flex-wrap gap-6"
+          >
+            <StatCard
+              label="Total Nao Conformidades"
+              value={overview.total}
+            />
+            {overview.areas.map((area) => (
+              <StatCard key={area.name} label={area.name} value={area.count} />
+            ))}
+          </div>
         </div>
       </section>
 
