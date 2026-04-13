@@ -90,14 +90,19 @@ export default function HomePage() {
                   {overview.total_nao_conformidades}
                 </p>
               </div>
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4 border border-white/20">
-                <p className="text-white/70 text-xs font-semibold uppercase tracking-wider">
-                  Taxa Resolucao Global
-                </p>
-                <p className="text-3xl font-bold font-['Outfit'] mt-1">
-                  {overview.taxa_resolucao_global}
-                </p>
-              </div>
+              {overview.areas?.map((area) => (
+                <div
+                  key={area.name}
+                  className="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4 border border-white/20"
+                >
+                  <p className="text-white/70 text-xs font-semibold uppercase tracking-wider">
+                    {area.name}
+                  </p>
+                  <p className="text-3xl font-bold font-['Outfit'] mt-1">
+                    {area.count}
+                  </p>
+                </div>
+              ))}
             </div>
           )}
         </div>

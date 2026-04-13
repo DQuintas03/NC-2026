@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import AcertosPage from "./pages/AcertosPage";
 import TrocasPage from "./pages/TrocasPage";
 import FaltasPage from "./pages/FaltasPage";
+import ImportPage from "./pages/ImportPage";
 
 function App() {
   return (
@@ -18,6 +19,7 @@ function App() {
             <Route path="/acertos" element={<AcertosPage />} />
             <Route path="/trocas" element={<TrocasPage />} />
             <Route path="/faltas" element={<FaltasPage />} />
+            <Route path="/importar" element={<ImportPage />} />
           </Routes>
         </main>
         <Footer />

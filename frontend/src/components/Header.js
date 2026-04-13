@@ -7,6 +7,7 @@ const navItems = [
   { label: "Acertos", path: "/acertos" },
   { label: "Trocas", path: "/trocas" },
   { label: "Faltas de Circulacao", path: "/faltas" },
+  { label: "Importar Dados", path: "/importar" },
 ];
 
 export const Header = () => {
