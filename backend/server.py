@@ -172,52 +172,17 @@ async def upload_data(area_key: str, file: UploadFile = File(...)):
     collection_name = COLLECTION_MAP[area_key]
     contents = await file.read()
 
-    try:
-        if file.filename.endswith(".csv"):
-            df = pd.read_csv(io.BytesIO(contents))
-        elif file.filename.endswith((".xlsx", ".xls")):
-            df = pd.read_excel(io.BytesIO(contents))
-        else:
-            return {"error": "Formato nao suportado. Use CSV ou Excel (.xlsx/.xls)"}
-    except Exception as e:
-        return {"error": f"Erro ao ler ficheiro: {str(e)}"}
+    df = _read_upload_file(file.filename, contents)
+    if isinstance(df, dict):
+        return df
 
-    col_mapping = {}
-    for col in df.columns:
-        col_lower = col.strip().lower()
-        if col_lower in ("data", "date", "data_ocorrencia"):
-            col_mapping["data"] = col
-        elif col_lower in ("linha", "line", "rota", "route"):
-            col_mapping["linha"] = col
-        elif col_lower in ("motorista", "driver", "condutor"):
-            col_mapping["motorista"] = col
-
+    col_mapping = _detect_columns(df)
     if not col_mapping:
         return {
             "error": "Colunas nao reconhecidas. O ficheiro deve conter colunas: Data, Linha, Motorista"
         }
 
-    records = []
-    for _, row in df.iterrows():
-        record = {"id": str(uuid.uuid4())}
-        if "data" in col_mapping:
-            val = row[col_mapping["data"]]
-            if pd.notna(val):
-                if isinstance(val, pd.Timestamp):
-                    record["data"] = val.isoformat()
-                else:
-                    record["data"] = str(val)
-            else:
-                record["data"] = ""
-        if "linha" in col_mapping:
-            val = row[col_mapping["linha"]]
-            record["linha"] = str(val) if pd.notna(val) else ""
-        if "motorista" in col_mapping:
-            val = row[col_mapping["motorista"]]
-            record["motorista"] = str(val) if pd.notna(val) else ""
-        record["created_at"] = datetime.now(timezone.utc).isoformat()
-        records.append(record)
-
+    records = _build_records(df, col_mapping)
     if records:
         await db[collection_name].insert_many(records)
 
@@ -228,6 +193,54 @@ async def upload_data(area_key: str, file: UploadFile = File(...)):
         "filename": file.filename,
         "columns_detected": list(col_mapping.keys()),
     }
+
+
+def _read_upload_file(filename: str, contents: bytes):
+    try:
+        if filename.endswith(".csv"):
+            return pd.read_csv(io.BytesIO(contents))
+        elif filename.endswith((".xlsx", ".xls")):
+            return pd.read_excel(io.BytesIO(contents))
+        else:
+            return {"error": "Formato nao suportado. Use CSV ou Excel (.xlsx/.xls)"}
+    except Exception as e:
+        return {"error": f"Erro ao ler ficheiro: {str(e)}"}
+
+
+def _detect_columns(df) -> dict:
+    col_mapping = {}
+    aliases = {
+        "data": ("data", "date", "data_ocorrencia"),
+        "linha": ("linha", "line", "rota", "route"),
+        "motorista": ("motorista", "driver", "condutor"),
+    }
+    for col in df.columns:
+        col_lower = col.strip().lower()
+        for key, names in aliases.items():
+            if col_lower in names:
+                col_mapping[key] = col
+    return col_mapping
+
+
+def _build_records(df, col_mapping: dict) -> list:
+    records = []
+    for _, row in df.iterrows():
+        record = {"id": str(uuid.uuid4())}
+        if "data" in col_mapping:
+            val = row[col_mapping["data"]]
+            if pd.notna(val):
+                record["data"] = val.isoformat() if isinstance(val, pd.Timestamp) else str(val)
+            else:
+                record["data"] = ""
+        if "linha" in col_mapping:
+            val = row[col_mapping["linha"]]
+            record["linha"] = str(val) if pd.notna(val) else ""
+        if "motorista" in col_mapping:
+            val = row[col_mapping["motorista"]]
+            record["motorista"] = str(val) if pd.notna(val) else ""
+        record["created_at"] = datetime.now(timezone.utc).isoformat()
+        records.append(record)
+    return records
 
 
 @api_router.get("/data/{area_key}")

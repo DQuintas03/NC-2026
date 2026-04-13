@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import { Link } from "react-router-dom";
 import {
   CheckCircle,
@@ -42,15 +42,71 @@ const areaCards = [
   },
 ];
 
+async function fetchOverview() {
+  const res = await axios.get(`${API}/overview`);
+  return res.data;
+}
+
+const StatCard = ({ label, value }) => (
+  <div className="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4 border border-white/20">
+    <p className="text-white/70 text-xs font-semibold uppercase tracking-wider">
+      {label}
+    </p>
+    <p className="text-3xl font-bold font-['Outfit'] mt-1">{value}</p>
+  </div>
+);
+
+const AreaNavCard = ({ card, index }) => {
+  const Icon = card.icon;
+  return (
+    <Link
+      to={card.path}
+      data-testid={`nav-card-${card.title.toLowerCase().replace(/\s+/g, "-")}`}
+      className="group relative rounded-xl border border-slate-200 shadow-sm overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 cursor-pointer h-64 animate-fade-in-up block"
+      style={{ animationDelay: `${index * 150}ms` }}
+    >
+      <img
+        src={card.image}
+        alt={card.title}
+        className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700 group-hover:scale-105"
+      />
+      <div className="absolute inset-0 bg-[#017cb7]/80 group-hover:bg-[#017cb7]/65 transition-colors duration-300 z-10" />
+      <div className="relative p-8 h-full flex flex-col justify-end text-white z-20">
+        <div className="flex items-center gap-2 mb-2">
+          <Icon size={22} />
+          <h3 className="font-['Outfit'] text-xl font-semibold">
+            {card.title}
+          </h3>
+        </div>
+        <p className="text-white/80 text-sm leading-relaxed">
+          {card.description}
+        </p>
+        <div className="flex items-center gap-1 mt-4 text-white/70 group-hover:text-white transition-colors text-sm font-medium">
+          <span>Ver relatorio</span>
+          <ArrowRight
+            size={16}
+            className="transition-transform group-hover:translate-x-1"
+          />
+        </div>
+      </div>
+    </Link>
+  );
+};
+
 export default function HomePage() {
   const [overview, setOverview] = useState(null);
 
-  useEffect(() => {
-    axios
-      .get(`${API}/overview`)
-      .then((res) => setOverview(res.data))
-      .catch((err) => console.error("Failed to load overview", err));
+  const loadOverview = useCallback(async () => {
+    try {
+      setOverview(await fetchOverview());
+    } catch (err) {
+      console.error("Failed to load overview", err);
+    }
   }, []);
+
+  useEffect(() => {
+    loadOverview();
+  }, [loadOverview]);
 
   return (
     <div className="min-h-screen">
@@ -82,26 +138,12 @@ export default function HomePage() {
               data-testid="home-overview-stats"
               className="mt-10 flex flex-wrap gap-6"
             >
-              <div className="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4 border border-white/20">
-                <p className="text-white/70 text-xs font-semibold uppercase tracking-wider">
-                  Total Nao Conformidades
-                </p>
-                <p className="text-3xl font-bold font-['Outfit'] mt-1">
-                  {overview.total_nao_conformidades}
-                </p>
-              </div>
+              <StatCard
+                label="Total Nao Conformidades"
+                value={overview.total_nao_conformidades}
+              />
               {overview.areas?.map((area) => (
-                <div
-                  key={area.name}
-                  className="bg-white/10 backdrop-blur-sm rounded-lg px-6 py-4 border border-white/20"
-                >
-                  <p className="text-white/70 text-xs font-semibold uppercase tracking-wider">
-                    {area.name}
-                  </p>
-                  <p className="text-3xl font-bold font-['Outfit'] mt-1">
-                    {area.count}
-                  </p>
-                </div>
+                <StatCard key={area.name} label={area.name} value={area.count} />
               ))}
             </div>
           )}
@@ -121,47 +163,9 @@ export default function HomePage() {
           data-testid="home-nav-cards"
           className="grid grid-cols-1 md:grid-cols-3 gap-8"
         >
-          {areaCards.map((card, idx) => {
-            const Icon = card.icon;
-            return (
-              <Link
-                key={card.path}
-                to={card.path}
-                data-testid={`nav-card-${card.title.toLowerCase().replace(/\s+/g, "-")}`}
-                className="group relative rounded-xl border border-slate-200 shadow-sm overflow-hidden hover:-translate-y-1 hover:shadow-xl transition-all duration-300 cursor-pointer h-64 animate-fade-in-up block"
-                style={{ animationDelay: `${idx * 150}ms` }}
-              >
-                {/* Background Image */}
-                <img
-                  src={card.image}
-                  alt={card.title}
-                  className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700 group-hover:scale-105"
-                />
-                {/* Overlay */}
-                <div className="absolute inset-0 bg-[#017cb7]/80 group-hover:bg-[#017cb7]/65 transition-colors duration-300 z-10" />
-
-                {/* Content */}
-                <div className="relative p-8 h-full flex flex-col justify-end text-white z-20">
-                  <div className="flex items-center gap-2 mb-2">
-                    <Icon size={22} />
-                    <h3 className="font-['Outfit'] text-xl font-semibold">
-                      {card.title}
-                    </h3>
-                  </div>
-                  <p className="text-white/80 text-sm leading-relaxed">
-                    {card.description}
-                  </p>
-                  <div className="flex items-center gap-1 mt-4 text-white/70 group-hover:text-white transition-colors text-sm font-medium">
-                    <span>Ver relatorio</span>
-                    <ArrowRight
-                      size={16}
-                      className="transition-transform group-hover:translate-x-1"
-                    />
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+          {areaCards.map((card, idx) => (
+            <AreaNavCard key={card.path} card={card} index={idx} />
+          ))}
         </div>
       </section>
     </div>

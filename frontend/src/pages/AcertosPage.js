@@ -10,6 +10,14 @@ import { Button } from "../components/ui/button";
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const API = `${BACKEND_URL}/api`;
 
+async function fetchKpis(areaKey, params = {}) {
+  const query = new URLSearchParams();
+  if (params.start_date) query.set("start_date", params.start_date);
+  if (params.end_date) query.set("end_date", params.end_date);
+  const res = await axios.get(`${API}/kpis/${areaKey}?${query.toString()}`);
+  return res.data.kpis;
+}
+
 export default function AcertosPage() {
   const [kpis, setKpis] = useState([]);
   const [loading, setLoading] = useState(false);
@@ -19,11 +27,7 @@ export default function AcertosPage() {
   const loadKpis = useCallback(async (params = {}) => {
     setLoading(true);
     try {
-      const query = new URLSearchParams();
-      if (params.start_date) query.set("start_date", params.start_date);
-      if (params.end_date) query.set("end_date", params.end_date);
-      const res = await axios.get(`${API}/kpis/acertos?${query.toString()}`);
-      setKpis(res.data.kpis);
+      setKpis(await fetchKpis("acertos", params));
     } catch (err) {
       console.error("Failed to load Acertos KPIs", err);
     } finally {
