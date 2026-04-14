@@ -31,7 +31,7 @@ const KPI_DATA = {
 
   // --- FALTAS DE CIRCULACAO ---
   faltas: {
-    title: "Faltas de Circulacao",
+    title: "Faltas de Circulação",
     embedUrl: "https://app.powerbi.com/reportEmbed?reportId=49cdbbed-2b6f-45c7-bf6e-d167737554f5&autoAuth=true&ctid=6f7af7ee-61c5-447d-a6b5-ff4bdbb5c089",
     kpis: [
       { label: "Total Faltas",      value: "46",              icon: "AlertTriangle" },
