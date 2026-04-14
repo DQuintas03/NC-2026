@@ -14,10 +14,10 @@ export default function FaltasPage() {
             <AlertTriangle size={28} />
             <div>
               <h1 className="font-['Outfit'] text-2xl sm:text-3xl font-bold tracking-tight">
-                Faltas de Circulacao
+                Faltas de Circulação
               </h1>
               <p className="text-white/70 text-sm mt-1">
-                Indicadores operacionais de faltas de circulacao
+                Indicadores operacionais de faltas de circulação
               </p>
             </div>
           </div>
@@ -34,7 +34,7 @@ export default function FaltasPage() {
           ))}
         </div>
 
-        <PowerBIEmbed title="Faltas de Circulacao" embedUrl={embedUrl} />
+        <PowerBIEmbed title="Faltas de Circulação" embedUrl={embedUrl} />
       </div>
     </div>
   );
