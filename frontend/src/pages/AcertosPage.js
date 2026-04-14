@@ -4,7 +4,7 @@ import { PowerBIEmbed } from "../components/PowerBIEmbed";
 import KPI_DATA from "../config/kpiData";
 
 export default function AcertosPage() {
-  const { kpis } = KPI_DATA.acertos;
+  const { kpis, embedUrl } = KPI_DATA.acertos;
 
   return (
     <div data-testid="acertos-page" className="min-h-screen">
@@ -27,14 +27,14 @@ export default function AcertosPage() {
       <div className="tub-page-wrapper">
         <div
           data-testid="acertos-kpis"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+          className="grid grid-cols-1 sm:grid-cols-3 gap-6 mb-8 max-w-4xl mx-auto"
         >
           {kpis.map((kpi, idx) => (
             <KPICard key={kpi.label} {...kpi} index={idx} />
           ))}
         </div>
 
-        <PowerBIEmbed title="Acertos" pageName="Acertos" />
+        <PowerBIEmbed title="Acertos" embedUrl={embedUrl} />
       </div>
     </div>
   );

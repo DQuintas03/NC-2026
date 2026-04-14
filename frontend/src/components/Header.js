@@ -25,9 +25,12 @@ export const Header = () => {
             data-testid="header-logo"
             className="flex items-center gap-3 shrink-0"
           >
-            <span className="font-['Outfit'] text-2xl font-bold tracking-tight">
-              TUB
-            </span>
+            <img
+              id="logoimg"
+              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf1EUADEfxf7jvfDmVEehcSRDpbFJfLTuynQ&s"
+              alt="TUB"
+              className="h-10 w-auto object-contain"
+            />
             <span className="hidden sm:inline-block h-5 w-px bg-white/30" />
             <span className="hidden sm:block text-white/80 text-sm font-light">
               Nao Conformidades

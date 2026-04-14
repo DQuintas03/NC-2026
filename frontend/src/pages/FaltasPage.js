@@ -4,7 +4,7 @@ import { PowerBIEmbed } from "../components/PowerBIEmbed";
 import KPI_DATA from "../config/kpiData";
 
 export default function FaltasPage() {
-  const { kpis } = KPI_DATA.faltas;
+  const { kpis, embedUrl } = KPI_DATA.faltas;
 
   return (
     <div data-testid="faltas-page" className="min-h-screen">
@@ -27,14 +27,14 @@ export default function FaltasPage() {
       <div className="tub-page-wrapper">
         <div
           data-testid="faltas-kpis"
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8"
+          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8 max-w-5xl mx-auto"
         >
           {kpis.map((kpi, idx) => (
             <KPICard key={kpi.label} {...kpi} index={idx} />
           ))}
         </div>
 
-        <PowerBIEmbed title="Faltas de Circulacao" pageName="FaltasCirculacao" />
+        <PowerBIEmbed title="Faltas de Circulacao" embedUrl={embedUrl} />
       </div>
     </div>
   );
