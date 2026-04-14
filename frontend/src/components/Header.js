@@ -6,7 +6,7 @@ const navItems = [
   { label: "Painel Geral", path: "/" },
   { label: "Acertos", path: "/acertos" },
   { label: "Trocas", path: "/trocas" },
-  { label: "Faltas de Circulacao", path: "/faltas" },
+  { label: "Faltas de Circulação", path: "/faltas" },
 ];
 
 export const Header = () => {
@@ -33,7 +33,7 @@ export const Header = () => {
             />
             <span className="hidden sm:inline-block h-5 w-px bg-white/30" />
             <span className="hidden sm:block text-white/80 text-sm font-light">
-              Nao Conformidades
+              Não Conformidades
             </span>
           </Link>
 
