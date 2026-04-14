@@ -21,15 +21,15 @@ const areaCards = [
   {
     title: "Trocas",
     description:
-      "Monitorizacao de trocas e respetivas aprovacoes operacionais.",
+      "Monitorização das trocas.",
     path: "/trocas",
     icon: ArrowLeftRight,
     image: "https://www.correiodominho.pt/images/139971_800x800.jpg",
   },
   {
-    title: "Faltas de Circulacao",
+    title: "Faltas de Circulação",
     description:
-      "Acompanhamento de faltas de circulacao e taxas de justificacao.",
+      "Acompanhamento das faltas de circulação.",
     path: "/faltas",
     icon: AlertTriangle,
     image: "https://www.correiodominho.pt/images/137615_800x800.jpg",
@@ -115,7 +115,7 @@ export default function HomePage() {
             className="mt-10 flex flex-wrap gap-6"
           >
             <StatCard
-              label="Total Nao Conformidades"
+              label="Total Não Conformidades"
               value={overview.total}
             />
             {overview.areas.map((area) => (
