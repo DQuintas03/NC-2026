@@ -101,11 +101,11 @@ export default function HomePage() {
               </span>
             </div>
             <h1 className="font-['Outfit'] text-3xl sm:text-4xl lg:text-5xl font-bold tracking-tight leading-tight">
-              Nao Conformidades
+              Não Conformidades
             </h1>
             <p className="mt-4 text-white/80 text-base sm:text-lg leading-relaxed max-w-xl">
               Aceda rapidamente aos indicadores operacionais de acertos, trocas e
-              faltas de circulacao.
+              faltas de circulação.
             </p>
           </div>
 
