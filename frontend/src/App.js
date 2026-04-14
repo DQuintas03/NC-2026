@@ -1,5 +1,5 @@
 import "@/App.css";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { HashRouter, Routes, Route } from "react-router-dom";
 import { Header } from "./components/Header";
 import { Footer } from "./components/Footer";
 import HomePage from "./pages/HomePage";
@@ -10,7 +10,7 @@ import FaltasPage from "./pages/FaltasPage";
 function App() {
   return (
     <div className="App flex flex-col min-h-screen">
-      <BrowserRouter basename="/NC-2026">
+      <HashRouter>
         <Header />
         <main className="flex-1">
           <Routes>
@@ -21,7 +21,7 @@ function App() {
           </Routes>
         </main>
         <Footer />
-      </BrowserRouter>
+      </HashRouter>
     </div>
   );
 }
