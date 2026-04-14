@@ -10,7 +10,7 @@ import FaltasPage from "./pages/FaltasPage";
 function App() {
   return (
     <div className="App flex flex-col min-h-screen">
-      <BrowserRouter>
+      <BrowserRouter basename="/NC-2026">
         <Header />
         <main className="flex-1">
           <Routes>
