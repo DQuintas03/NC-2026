@@ -51,7 +51,7 @@ export const Footer = () => {
                   data-testid="footer-link-faltas"
                   className="text-white/70 hover:text-white text-sm transition-colors"
                 >
-                  Faltas de Circulacao
+                  Faltas de Circulação
                 </Link>
               </li>
             </ul>
@@ -86,7 +86,7 @@ export const Footer = () => {
             {currentYear} TUB - Transportes Urbanos de Braga. Uso interno.
           </p>
           <p className="text-white/40 text-xs">
-            Plataforma de Nao Conformidades v1.0
+            Plataforma de Não Conformidades v1.0
           </p>
         </div>
       </div>
