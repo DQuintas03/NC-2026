@@ -16,8 +16,7 @@ const areaCards = [
     description: "Analise de acertos operacionais e indicadores de desempenho.",
     path: "/acertos",
     icon: CheckCircle,
-    image:
-      "https://images.unsplash.com/photo-1759674406716-9645dcddd353?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwyfHxtb2Rlcm4lMjBjaXR5JTIwYnVzJTIwdHJhbnNpdHxlbnwwfHx8fDE3NzYwOTM4ODN8MA&ixlib=rb-4.1.0&q=85",
+    image: "https://tub.pt/uploads/1/30/601/images/TUB20200717_014.jpg",
   },
   {
     title: "Trocas",
@@ -25,8 +24,7 @@ const areaCards = [
       "Monitorizacao de trocas e respetivas aprovacoes operacionais.",
     path: "/trocas",
     icon: ArrowLeftRight,
-    image:
-      "https://images.unsplash.com/photo-1761760178065-f45ba583a014?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBjaXR5JTIwYnVzJTIwdHJhbnNpdHxlbnwwfHx8fDE3NzYwOTM4ODN8MA&ixlib=rb-4.1.0&q=85",
+    image: "https://www.correiodominho.pt/images/139971_800x800.jpg",
   },
   {
     title: "Faltas de Circulacao",
@@ -34,8 +32,7 @@ const areaCards = [
       "Acompanhamento de faltas de circulacao e taxas de justificacao.",
     path: "/faltas",
     icon: AlertTriangle,
-    image:
-      "https://images.unsplash.com/photo-1765034511020-fbf315b3134c?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBjaXR5JTIwYnVzJTIwdHJhbnNpdHxlbnwwfHx8fDE3NzYwOTM4ODN8MA&ixlib=rb-4.1.0&q=85",
+    image: "https://www.correiodominho.pt/images/137615_800x800.jpg",
   },
 ];
 
@@ -62,7 +59,7 @@ const AreaNavCard = ({ card, index }) => {
         alt={card.title}
         className="absolute inset-0 w-full h-full object-cover z-0 transition-transform duration-700 group-hover:scale-105"
       />
-      <div className="absolute inset-0 bg-[#017cb7]/80 group-hover:bg-[#017cb7]/65 transition-colors duration-300 z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-black/70 via-black/40 to-black/30 group-hover:from-black/60 group-hover:via-black/30 group-hover:to-black/20 transition-all duration-300 z-10" />
       <div className="relative p-8 h-full flex flex-col justify-end text-white z-20">
         <div className="flex items-center gap-2 mb-2">
           <Icon size={22} />

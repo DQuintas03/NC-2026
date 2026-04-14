@@ -27,9 +27,9 @@ export const Header = () => {
           >
             <img
               id="logoimg"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSf1EUADEfxf7jvfDmVEehcSRDpbFJfLTuynQ&s"
+              src="https://play-lh.googleusercontent.com/iSreCpNE1K9TS5sBX07r6JRtFUVrMrpjbVNlnKavmYJu2cXcKbkoMsc_1uay4yoEQ3M"
               alt="TUB"
-              className="h-10 w-auto object-contain"
+              className="h-12 w-auto object-contain"
             />
             <span className="hidden sm:inline-block h-5 w-px bg-white/30" />
             <span className="hidden sm:block text-white/80 text-sm font-light">
