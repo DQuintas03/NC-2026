@@ -13,7 +13,7 @@ import KPI_DATA from "../config/kpiData";
 const areaCards = [
   {
     title: "Acertos",
-    description: "Analise de acertos operacionais e indicadores de desempenho.",
+    description: "Análise de acertos operacionais e indicadores de desempenho.",
     path: "/acertos",
     icon: CheckCircle,
     image: "https://tub.pt/uploads/1/30/601/images/TUB20200717_014.jpg",
