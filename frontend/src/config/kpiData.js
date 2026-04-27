@@ -44,9 +44,9 @@ const KPI_DATA = {
 // --- NC GERAL ---
 ncGeral: {
   title: "NC Geral",
-  embedUrl: "COLOCA_AQUI_O_LINK_DO_POWERBI_GERAL",
+  embedUrl: "https://app.powerbi.com/reportEmbed?reportId=e21b1bb2-77a3-494b-af7d-381861c63f34&autoAuth=true&ctid=6f7af7ee-61c5-447d-a6b5-ff4bdbb5c089",
   kpis: [
-    { label: "Não Conformidades", value: "2234", icon: "BarChart3" },
+    { label: "Não Conformidades", value: "2.234", icon: "BarChart3" },
     { label: "Viatura", value: "1021", icon: "Bus" },
     { label: "Motorista", value: "3487", icon: "User" },
     { label: "Linha", value: "2", icon: "MapPin" },
@@ -55,7 +55,7 @@ ncGeral: {
   
   // --- RESUMO GERAL (homepage) ---
   overview: {
-    total: "2.238",
+    total: "2.234",
     areas: [
       { name: "Acertos",              count: "111" },
       { name: "Trocas",               count: "2.081" },
