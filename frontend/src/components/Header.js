@@ -4,6 +4,7 @@ import { useState } from "react";
 
 const navItems = [
   { label: "Painel Geral", path: "/" },
+  { label: "NC Geral", path: "/nc-geral" },
   { label: "Acertos", path: "/acertos" },
   { label: "Trocas", path: "/trocas" },
   { label: "Faltas de Circulação", path: "/faltas" },
