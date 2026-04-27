@@ -40,7 +40,19 @@ const KPI_DATA = {
       { label: "Km's por realizar", value: "444,12",             icon: "TrendingUp" },
     ],
   },
-
+  
+// --- NC GERAL ---
+ncGeral: {
+  title: "NC Geral",
+  embedUrl: "COLOCA_AQUI_O_LINK_DO_POWERBI_GERAL",
+  kpis: [
+    { label: "Não Conformidades", value: "2234", icon: "BarChart3" },
+    { label: "Viatura", value: "1021", icon: "Bus" },
+    { label: "Motorista", value: "3487", icon: "User" },
+    { label: "Linha", value: "2", icon: "MapPin" },
+  ],
+},
+  
   // --- RESUMO GERAL (homepage) ---
   overview: {
     total: "2.238",
