@@ -6,6 +6,7 @@ import HomePage from "./pages/HomePage";
 import AcertosPage from "./pages/AcertosPage";
 import TrocasPage from "./pages/TrocasPage";
 import FaltasPage from "./pages/FaltasPage";
+import NCGeralPage from "./pages/NCGeralPage";
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
         <main className="flex-1">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/nc-geral" element={<NCGeralPage />} />
             <Route path="/acertos" element={<AcertosPage />} />
             <Route path="/trocas" element={<TrocasPage />} />
             <Route path="/faltas" element={<FaltasPage />} />
