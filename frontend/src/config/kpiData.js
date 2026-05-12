@@ -23,7 +23,7 @@ const KPI_DATA = {
     title: "Trocas",
     embedUrl: "https://app.powerbi.com/reportEmbed?reportId=06ce867a-09ee-47ee-87e0-d9f85bdb227c&autoAuth=true&ctid=6f7af7ee-61c5-447d-a6b5-ff4bdbb5c089",
     kpis: [
-      { label: "Total Trocas",  value: "2.705",               icon: "ArrowLeftRight" },
+      { label: "Total Trocas",  value: "2.706",               icon: "ArrowLeftRight" },
       { label: "Linha",         value: "Linha 2",      icon: "MapPin" },
       { label: "Motorista",     value: "3487",  icon: "User" },
     ],
@@ -34,10 +34,10 @@ const KPI_DATA = {
     title: "Faltas de Circulação",
     embedUrl: "https://app.powerbi.com/reportEmbed?reportId=49cdbbed-2b6f-45c7-bf6e-d167737554f5&autoAuth=true&ctid=6f7af7ee-61c5-447d-a6b5-ff4bdbb5c089",
     kpis: [
-      { label: "Total Faltas",      value: "54",              icon: "AlertTriangle" },
+      { label: "Total Faltas",      value: "66",              icon: "AlertTriangle" },
       { label: "Linha",             value: "Linha 90",      icon: "MapPin" },
       { label: "Motorista",         value: "3477",  icon: "User" },
-      { label: "Km's por realizar", value: "646,52",             icon: "TrendingUp" },
+      { label: "Km's por realizar", value: "642,56",             icon: "TrendingUp" },
     ],
   },
   
@@ -46,7 +46,7 @@ ncGeral: {
   title: "NC Geral",
   embedUrl: "https://app.powerbi.com/reportEmbed?reportId=e21b1bb2-77a3-494b-af7d-381861c63f34&autoAuth=true&ctid=6f7af7ee-61c5-447d-a6b5-ff4bdbb5c089",
   kpis: [
-    { label: "Não Conformidades", value: "2.921", icon: "BarChart3" },
+    { label: "Não Conformidades", value: "2.925", icon: "BarChart3" },
     { label: "Viatura", value: "1021", icon: "Bus" },
     { label: "Motorista", value: "3487", icon: "User" },
     { label: "Linha", value: "2", icon: "MapPin" },
@@ -55,11 +55,11 @@ ncGeral: {
   
   // --- RESUMO GERAL (homepage) ---
   overview: {
-    total: "2.921",
+    total: "2.925",
     areas: [
       { name: "Acertos",              count: "153" },
-      { name: "Trocas",               count: "2.705" },
-      { name: "Faltas de Circulação",  count: "54" },
+      { name: "Trocas",               count: "2.706" },
+      { name: "Faltas de Circulação",  count: "66" },
     ],
   },
 };
