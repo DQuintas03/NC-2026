@@ -44,7 +44,7 @@ const KPI_DATA = {
 // --- NC GERAL ---
 ncGeral: {
   title: "NC Geral",
-  embedUrl: "https://app.powerbi.com/reportEmbed?reportId=e21b1bb2-77a3-494b-af7d-381861c63f34&autoAuth=true&ctid=6f7af7ee-61c5-447d-a6b5-ff4bdbb5c089",
+  embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiZTcxMjcwMmYtZTUzMC00OGZkLTg3MjgtMWIxMmVkMzc2MmEyIiwidCI6IjZmN2FmN2VlLTYxYzUtNDQ3ZC1hNmI1LWZmNGJkYmI1YzA4OSIsImMiOjl9",
   kpis: [
     { label: "Não Conformidades", value: "2.925", icon: "BarChart3" },
     { label: "Viatura", value: "1021", icon: "Bus" },
