@@ -7,9 +7,6 @@
 
 const KPI_DATA = {
 
-  // --- DATA DE REFERÊNCIA DOS DADOS ---
-  // Atualiza este campo sempre que atualizares os valores abaixo
-  ultimaAtualizacao: "Junho 2026",
 
 
   // --- ACERTOS ---
