@@ -1,10 +1,11 @@
-import { CheckCircle } from "lucide-react";
+import { CheckCircle, Calendar } from "lucide-react";
 import { KPICard } from "../components/KPICard";
 import { PowerBIEmbed } from "../components/PowerBIEmbed";
 import KPI_DATA from "../config/kpiData";
 
 export default function AcertosPage() {
   const { kpis, embedUrl } = KPI_DATA.acertos;
+  const { ultimaAtualizacao } = KPI_DATA;
 
   return (
     <div data-testid="acertos-page" className="min-h-screen">
@@ -33,6 +34,11 @@ export default function AcertosPage() {
             <KPICard key={kpi.label} {...kpi} index={idx} />
           ))}
         </div>
+
+        <p className="flex items-center justify-end gap-1 text-xs text-gray-400 -mt-6 mb-6">
+          <Calendar size={12} />
+          Dados referentes a: {ultimaAtualizacao}
+        </p>
 
         <PowerBIEmbed title="Acertos" embedUrl={embedUrl} />
       </div>

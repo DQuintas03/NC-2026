@@ -1,10 +1,11 @@
-import { ArrowLeftRight } from "lucide-react";
+import { ArrowLeftRight, Calendar } from "lucide-react";
 import { KPICard } from "../components/KPICard";
 import { PowerBIEmbed } from "../components/PowerBIEmbed";
 import KPI_DATA from "../config/kpiData";
 
 export default function TrocasPage() {
   const { kpis, embedUrl } = KPI_DATA.trocas;
+  const { ultimaAtualizacao } = KPI_DATA;
 
   return (
     <div data-testid="trocas-page" className="min-h-screen">
@@ -33,6 +34,11 @@ export default function TrocasPage() {
             <KPICard key={kpi.label} {...kpi} index={idx} />
           ))}
         </div>
+
+        <p className="flex items-center justify-end gap-1 text-xs text-gray-400 -mt-6 mb-6">
+          <Calendar size={12} />
+          Dados referentes a: {ultimaAtualizacao}
+        </p>
 
         <PowerBIEmbed title="Trocas" embedUrl={embedUrl} />
       </div>

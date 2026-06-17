@@ -1,10 +1,11 @@
-import { BarChart3 } from "lucide-react";
+import { BarChart3, Calendar } from "lucide-react";
 import { KPICard } from "../components/KPICard";
 import { PowerBIEmbed } from "../components/PowerBIEmbed";
 import KPI_DATA from "../config/kpiData";
 
 export default function NCGeralPage() {
   const { kpis, embedUrl } = KPI_DATA.ncGeral;
+  const { ultimaAtualizacao } = KPI_DATA;
 
   return (
     <div className="min-h-screen">
@@ -30,6 +31,11 @@ export default function NCGeralPage() {
             <KPICard key={kpi.label} {...kpi} index={idx} />
           ))}
         </div>
+
+        <p className="flex items-center justify-end gap-1 text-xs text-gray-400 -mt-6 mb-6">
+          <Calendar size={12} />
+          Dados referentes a: {ultimaAtualizacao}
+        </p>
 
         <PowerBIEmbed title="NC Geral" embedUrl={embedUrl} />
       </div>
