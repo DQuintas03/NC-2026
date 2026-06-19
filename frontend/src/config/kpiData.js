@@ -12,7 +12,7 @@ const KPI_DATA = {
   // --- ACERTOS ---
   acertos: {
     title: "Acertos",
-    embedUrl: "https://app.powerbi.com/reportEmbed?reportId=92f3fd58-b074-4038-85df-8137717e4aa7&autoAuth=true&ctid=6f7af7ee-61c5-447d-a6b5-ff4bdbb5c089",
+    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiNGVjOGFhMmMtM2U0NS00ODg4LTg4MGYtNDM3OTc2MWVhNDEzIiwidCI6IjZmN2FmN2VlLTYxYzUtNDQ3ZC1hNmI1LWZmNGJkYmI1YzA4OSIsImMiOjl9",
     kpis: [
       { label: "Total Acertos",  value: "153",            icon: "CheckCircle" },
       { label: "Linha",          value: "Linha 90",     icon: "MapPin" },
@@ -23,7 +23,7 @@ const KPI_DATA = {
   // --- TROCAS ---
   trocas: {
     title: "Trocas",
-    embedUrl: "https://app.powerbi.com/reportEmbed?reportId=06ce867a-09ee-47ee-87e0-d9f85bdb227c&autoAuth=true&ctid=6f7af7ee-61c5-447d-a6b5-ff4bdbb5c089",
+    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiMzcyZmRjZGItMWYxNy00MWUyLWI0ZDItMGQ4YzJlZGUzOTdmIiwidCI6IjZmN2FmN2VlLTYxYzUtNDQ3ZC1hNmI1LWZmNGJkYmI1YzA4OSIsImMiOjl9",
     kpis: [
       { label: "Total Trocas",  value: "2.706",               icon: "ArrowLeftRight" },
       { label: "Linha",         value: "Linha 2",      icon: "MapPin" },
@@ -34,7 +34,7 @@ const KPI_DATA = {
   // --- FALTAS DE CIRCULACAO ---
   faltas: {
     title: "Faltas de Circulação",
-    embedUrl: "https://app.powerbi.com/reportEmbed?reportId=49cdbbed-2b6f-45c7-bf6e-d167737554f5&autoAuth=true&ctid=6f7af7ee-61c5-447d-a6b5-ff4bdbb5c089",
+    embedUrl: "https://app.powerbi.com/view?r=eyJrIjoiZGY1YzhmYzEtMWEwNC00M2M5LTg1YTYtMTI4MDI0ZjA3NDdmIiwidCI6IjZmN2FmN2VlLTYxYzUtNDQ3ZC1hNmI1LWZmNGJkYmI1YzA4OSIsImMiOjl9",
     kpis: [
       { label: "Total Faltas",      value: "66",              icon: "AlertTriangle" },
       { label: "Linha",             value: "Linha 90",      icon: "MapPin" },
