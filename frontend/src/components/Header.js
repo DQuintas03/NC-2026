@@ -9,6 +9,7 @@ const navItems = [
   { label: "Acertos", path: "/acertos" },
   { label: "Trocas", path: "/trocas" },
   { label: "Faltas de Circulação", path: "/faltas" },
+  { label: "Melhorias", path: "/melhorias" },
 ];
 
 export const Header = () => {

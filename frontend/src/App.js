@@ -10,6 +10,7 @@ import AcertosPage from "./pages/AcertosPage";
 import TrocasPage from "./pages/TrocasPage";
 import FaltasPage from "./pages/FaltasPage";
 import NCGeralPage from "./pages/NCGeralPage";
+import MelhoriasPage from "./pages/MelhoriasPage";
 
 function App() {
   return (
@@ -30,6 +31,7 @@ function App() {
                       <Route path="/acertos" element={<AcertosPage />} />
                       <Route path="/trocas" element={<TrocasPage />} />
                       <Route path="/faltas" element={<FaltasPage />} />
+                      <Route path="/melhorias" element={<MelhoriasPage />} />
                     </Routes>
                   </main>
                   <Footer />
