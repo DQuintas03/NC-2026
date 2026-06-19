@@ -12,7 +12,11 @@ export const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
           {/* Brand */}
           <div>
-            <h3 className="font-['Outfit'] text-xl font-bold mb-2">TUB</h3>
+            <img
+              src="https://play-lh.googleusercontent.com/iSreCpNE1K9TS5sBX07r6JRtFUVrMrpjbVNlnKavmYJu2cXcKbkoMsc_1uay4yoEQ3M"
+              alt="TUB"
+              className="h-12 w-auto object-contain mb-3"
+            />
             <p className="text-white/70 text-sm leading-relaxed">
               Transportes Urbanos de Braga
             </p>

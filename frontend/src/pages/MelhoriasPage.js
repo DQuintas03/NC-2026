@@ -1,9 +1,8 @@
 import { useState } from "react";
 import { ArrowLeft, TrendingDown, Award, ChevronRight } from "lucide-react";
 import {
-  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
+  LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, Legend,
   ReferenceLine, ReferenceArea, ResponsiveContainer,
-  BarChart, Bar, LabelList, Cell,
 } from "recharts";
 
 // ── Data ────────────────────────────────────────────────────────────────────
@@ -16,11 +15,13 @@ const MONTHLY = [
   { month: "Mai", ncs: 27 },
 ];
 
-const MOTIVOS = [
-  { label: "Avaria de Viatura",    value: 107 },
-  { label: "Atrasos",              value: 52  },
-  { label: "Reposições",           value: 24  },
-  { label: "Outros",               value: 26  },
+// Atrasos por tipo — o que a intervenção directamente resolveu
+const ATRASOS = [
+  { month: "Jan", acertos: 1,  faltas: 1  },
+  { month: "Fev", acertos: 8,  faltas: 0  },
+  { month: "Mar", acertos: 17, faltas: 9  },
+  { month: "Abr", acertos: 12, faltas: 4  },
+  { month: "Mai", acertos: 0,  faltas: 0  },
 ];
 
 // ── Micro components ─────────────────────────────────────────────────────────
@@ -200,25 +201,34 @@ const Linha90 = ({ onBack }) => (
         </div>
 
         <div className="lg:col-span-3 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-          <h3 className="font-semibold text-gray-800 text-sm mb-0.5">Por motivo</h3>
-          <p className="text-xs text-gray-400 mb-5">Total acumulado · Linha 90</p>
+          <h3 className="font-semibold text-gray-800 text-sm mb-0.5">NCs por atrasos — o que a medida resolveu</h3>
+          <p className="text-xs text-gray-400 mb-5">Acertos e faltas causados por atrasos · Maio: zero ocorrências</p>
           <ResponsiveContainer width="100%" height={170}>
-            <BarChart data={MOTIVOS} layout="vertical"
-              margin={{ left: 0, right: 44, top: 0, bottom: 0 }}>
-              <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 11 }}
+            <LineChart data={ATRASOS} margin={{ top: 8, right: 20, left: 0, bottom: 0 }}>
+              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+              <XAxis dataKey="month" tick={{ fill: "#94a3b8", fontSize: 11 }}
                 axisLine={false} tickLine={false} />
-              <YAxis type="category" dataKey="label"
-                tick={{ fill: "#64748b", fontSize: 11 }}
-                axisLine={false} tickLine={false} width={140} />
-              <Bar dataKey="value" radius={[0, 4, 4, 0]}>
-                {MOTIVOS.map((_, i) => (
-                  <Cell key={i}
-                    fill={["#017cb7", "#01a7f4", "#7dd3fc", "#bae6fd"][i]} />
-                ))}
-                <LabelList dataKey="value" position="right"
-                  fill="#94a3b8" fontSize={11} />
-              </Bar>
-            </BarChart>
+              <YAxis tick={{ fill: "#94a3b8", fontSize: 11 }}
+                axisLine={false} tickLine={false} />
+              <Tooltip
+                contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #f1f5f9" }}
+                formatter={(v, name) => [v, name === "acertos" ? "Acertos" : "Faltas de Circulação"]}
+                labelFormatter={(l) => `${l} 2026`}
+              />
+              <ReferenceLine x="Abr" stroke="#f59e0b" strokeDasharray="4 4" strokeWidth={1.5} />
+              <ReferenceArea x1="Abr" x2="Mai" fill="#10b981" fillOpacity={0.07} />
+              <Line type="monotone" dataKey="acertos" stroke="#017cb7" strokeWidth={2}
+                dot={{ r: 4, fill: "#017cb7", stroke: "white", strokeWidth: 2 }}
+                activeDot={{ r: 6 }} />
+              <Line type="monotone" dataKey="faltas" stroke="#f97316" strokeWidth={2}
+                dot={{ r: 4, fill: "#f97316", stroke: "white", strokeWidth: 2 }}
+                activeDot={{ r: 6 }} />
+              <Legend
+                iconType="circle" iconSize={8}
+                formatter={(v) => v === "acertos" ? "Acertos" : "Faltas de Circulação"}
+                wrapperStyle={{ fontSize: 11, color: "#94a3b8", paddingTop: 8 }}
+              />
+            </LineChart>
           </ResponsiveContainer>
         </div>
 
