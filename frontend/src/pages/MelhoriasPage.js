@@ -1,280 +1,262 @@
 import { useState } from "react";
-import { ArrowLeft, AlertCircle, Zap, CheckCircle2, ChevronRight } from "lucide-react";
+import { ArrowLeft, TrendingDown, Award, ChevronRight } from "lucide-react";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip,
-  ReferenceLine, ResponsiveContainer, BarChart, Bar, LabelList,
+  ReferenceLine, ReferenceArea, ResponsiveContainer,
+  BarChart, Bar, LabelList, Cell,
 } from "recharts";
 
-const monthlyData = [
-  { month: "Jan", ncs: 16, rate: 0.52 },
-  { month: "Fev", ncs: 40, rate: 1.43 },
-  { month: "Mar", ncs: 75, rate: 2.42 },
-  { month: "Abr", ncs: 51, rate: 1.70 },
-  { month: "Mai", ncs: 27, rate: 0.87 },
+// ── Data ────────────────────────────────────────────────────────────────────
+
+const MONTHLY = [
+  { month: "Jan", ncs: 16 },
+  { month: "Fev", ncs: 40 },
+  { month: "Mar", ncs: 75 },
+  { month: "Abr", ncs: 51 },
+  { month: "Mai", ncs: 27 },
 ];
 
-const motivosData = [
-  { motivo: "Avaria de Viatura", count: 107 },
-  { motivo: "Atrasos/Engarrafamentos", count: 52 },
-  { motivo: "Reposições à Carreira", count: 24 },
-  { motivo: "Outros", count: 26 },
+const MOTIVOS = [
+  { label: "Avaria de Viatura",    value: 107 },
+  { label: "Atrasos",              value: 52  },
+  { label: "Reposições",           value: 24  },
+  { label: "Outros",               value: 26  },
 ];
 
-const CustomTooltip = ({ active, payload, label }) => {
+// ── Micro components ─────────────────────────────────────────────────────────
+
+const Sparkline = ({ data }) => (
+  <ResponsiveContainer width="100%" height={44}>
+    <LineChart data={data} margin={{ top: 4, right: 2, left: 2, bottom: 4 }}>
+      <Line type="monotone" dataKey="ncs" stroke="#10b981"
+        dot={false} strokeWidth={2} isAnimationActive={false} />
+    </LineChart>
+  </ResponsiveContainer>
+);
+
+const ChartTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
+  const after = label === "Mai";
   return (
-    <div className="bg-white border border-gray-200 rounded-lg p-3 shadow-lg">
-      <p className="font-semibold text-gray-800 mb-1">{label} 2026</p>
-      <p className="text-[#017cb7] font-bold">{payload[0].value} NCs</p>
-      <p className="text-gray-400 text-xs">{payload[0].payload.rate} NCs/dia</p>
+    <div className="bg-white border border-gray-100 rounded-lg px-3 py-2 shadow-md">
+      <p className="text-gray-400 text-xs mb-0.5">{label} 2026</p>
+      <p className={`font-bold text-sm ${after ? "text-green-600" : "text-[#017cb7]"}`}>
+        {payload[0].value} NCs
+      </p>
     </div>
   );
 };
 
-const CustomDot = (props) => {
-  const { cx, cy, payload } = props;
-  const isAfter = payload.month === "Mai";
+const ChartDot = ({ cx, cy, payload }) => (
+  <circle cx={cx} cy={cy} r={5}
+    fill={payload.month === "Mai" ? "#10b981" : "#017cb7"}
+    stroke="white" strokeWidth={2} />
+);
+
+const Stat = ({ label, value, color = "text-gray-800", sub }) => (
+  <div className="bg-white rounded-xl border border-gray-100 shadow-sm p-5 text-center">
+    <p className="text-xs text-gray-400 uppercase tracking-widest mb-2">{label}</p>
+    <p className={`text-3xl font-bold ${color}`}>{value}</p>
+    {sub && <p className="text-xs text-gray-300 mt-1">{sub}</p>}
+  </div>
+);
+
+const Callout = ({ color, label, text }) => {
+  const scheme = {
+    red:   "border-red-400 bg-red-50 text-red-500",
+    blue:  "border-[#017cb7] bg-blue-50 text-[#017cb7]",
+    green: "border-green-500 bg-green-50 text-green-600",
+  }[color];
   return (
-    <circle cx={cx} cy={cy} r={6}
-      fill={isAfter ? "#10b981" : "#017cb7"}
-      stroke="white" strokeWidth={2}
-    />
+    <div className={`border-l-4 rounded-r-xl px-4 py-3.5 ${scheme.split(" ").slice(1).join(" ")}`}
+      style={{ borderLeftColor: scheme.split(" ")[0].replace("border-", "").replace("[", "").replace("]", "") }}>
+      <p className={`text-xs font-semibold uppercase tracking-widest mb-1 ${scheme.split(" ").pop()}`}>{label}</p>
+      <p className="text-sm text-gray-600 leading-relaxed">{text}</p>
+    </div>
   );
 };
 
-function Linha90Detail({ onBack }) {
-  return (
-    <div className="min-h-screen">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-6">
+// ── Landing card ─────────────────────────────────────────────────────────────
+
+const CaseCard = ({ onClick }) => (
+  <button onClick={onClick} className="group text-left w-full">
+    <div className="bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-200 p-6">
+      <div className="flex items-start justify-between mb-3">
+        <div>
+          <p className="text-xs text-gray-400 uppercase tracking-widest mb-1">Linha</p>
+          <p className="text-4xl font-black text-gray-800 leading-none">90</p>
+        </div>
+        <span className="text-xs font-medium text-green-700 bg-green-50 border border-green-200 px-2.5 py-1 rounded-full">
+          Concluída
+        </span>
+      </div>
+      <div className="flex items-end gap-4">
+        <div>
+          <p className="text-3xl font-bold text-green-600">-64%</p>
+          <p className="text-xs text-gray-400 mt-0.5">de não conformidades</p>
+          <p className="text-xs text-gray-300 mt-0.5">Abr 2026 · Nova viatura</p>
+        </div>
+        <div className="flex-1 opacity-60">
+          <Sparkline data={MONTHLY} />
+        </div>
+      </div>
+      <div className="flex items-center gap-1 text-[#017cb7] text-xs font-medium mt-4 pt-4 border-t border-gray-50 group-hover:gap-2 transition-all duration-200">
+        Ver análise <ChevronRight size={13} />
+      </div>
+    </div>
+  </button>
+);
+
+// ── Linha 90 detail ──────────────────────────────────────────────────────────
+
+const Linha90 = ({ onBack }) => (
+  <div>
+    <div className="bg-[#017cb7] text-white py-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <button onClick={onBack}
-          className="flex items-center gap-2 text-sm text-gray-500 hover:text-gray-800 transition-colors"
-        >
-          <ArrowLeft size={16} />
-          Voltar às melhorias
+          className="flex items-center gap-1.5 text-white/60 hover:text-white text-sm mb-4 transition-colors">
+          <ArrowLeft size={14} /> Melhorias
         </button>
-      </div>
-
-      {/* Hero */}
-      <div className="bg-[#0f172a] text-white py-16 mt-6">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-[#01a7f4] text-sm font-semibold tracking-widest uppercase mb-4">
-            Melhoria Operacional · Março — Maio 2026
-          </p>
-          <div className="flex flex-col lg:flex-row lg:items-end gap-8 lg:gap-16">
+        <div className="flex items-end justify-between flex-wrap gap-4">
+          <div className="flex items-center gap-3">
+            <TrendingDown size={26} />
             <div>
-              <p className="text-white/40 text-sm uppercase tracking-widest mb-1">Linha</p>
-              <p className="text-white font-black text-9xl leading-none">90</p>
-            </div>
-            <div>
-              <p className="text-white/40 text-sm uppercase tracking-widest mb-1">Redução do pico a Maio</p>
-              <p className="text-green-400 font-black text-8xl leading-none">-64%</p>
-            </div>
-            <div className="lg:ml-auto grid grid-cols-2 gap-8 text-center lg:pb-2">
-              <div>
-                <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Pico · Março</p>
-                <p className="text-red-400 text-4xl font-bold">2.42</p>
-                <p className="text-white/30 text-xs mt-1">NCs/dia</p>
-              </div>
-              <div>
-                <p className="text-white/40 text-xs uppercase tracking-widest mb-2">Após medida · Maio</p>
-                <p className="text-green-400 text-4xl font-bold">0.87</p>
-                <p className="text-white/30 text-xs mt-1">NCs/dia</p>
-              </div>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Linha 90</h1>
+              <p className="text-white/70 text-sm mt-0.5">Melhoria operacional · Abril 2026</p>
             </div>
           </div>
+          <span className="text-xs font-medium text-green-300 bg-green-900/30 border border-green-700/40 px-3 py-1.5 rounded-full">
+            Concluída
+          </span>
         </div>
       </div>
+    </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 space-y-8">
+    <div className="tub-page-wrapper space-y-6">
 
-        {/* Problema + Intervenção */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
-          <div className="bg-red-50 border border-red-100 rounded-2xl p-8">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-red-100 rounded-full flex items-center justify-center">
-                <AlertCircle size={16} className="text-red-500" />
-              </div>
-              <p className="text-red-500 font-semibold text-sm uppercase tracking-widest">O Problema</p>
-            </div>
-            <p className="text-gray-700 text-base leading-relaxed">
-              A Linha 90 registou uma escalada progressiva de não conformidades entre Janeiro e Março,
-              atingindo <strong>75 NCs em Março</strong> — o valor mais elevado do período.
-              A análise identificou excesso de pressão operacional sobre as viaturas,
-              dificultando o cumprimento dos horários programados.
+      {/* KPI strip */}
+      <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+        <Stat label="Pico · Março"        value="75"     color="text-red-500"    sub="NCs/mês" />
+        <Stat label="Após medida · Maio"  value="27"     color="text-green-600"  sub="NCs/mês" />
+        <Stat label="Redução"             value="-64%"   color="text-[#017cb7]"  sub="do pico a Maio" />
+        <Stat label="Intervenção"         value="21 Abr" color="text-gray-700"   sub="2026" />
+      </div>
+
+      {/* Chart */}
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div className="flex items-center justify-between mb-5">
+          <div>
+            <h3 className="font-semibold text-gray-800 text-sm">Evolução mensal — Linha 90</h3>
+            <p className="text-xs text-gray-400 mt-0.5">NCs por mês · Jan–Mai 2026</p>
+          </div>
+          <div className="flex items-center gap-4 text-xs text-gray-400">
+            <span className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-[#017cb7] inline-block" /> Antes
+            </span>
+            <span className="flex items-center gap-1.5">
+              <span className="w-2.5 h-2.5 rounded-full bg-green-500 inline-block" /> Após medida
+            </span>
+          </div>
+        </div>
+        <ResponsiveContainer width="100%" height={240}>
+          <LineChart data={MONTHLY} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+            <XAxis dataKey="month" tick={{ fill: "#94a3b8", fontSize: 12 }}
+              axisLine={false} tickLine={false} />
+            <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }}
+              axisLine={false} tickLine={false} />
+            <Tooltip content={<ChartTooltip />} />
+            <ReferenceArea x1="Abr" x2="Mai" fill="#10b981" fillOpacity={0.07} />
+            <ReferenceLine x="Abr" stroke="#f59e0b" strokeDasharray="4 4" strokeWidth={1.5}
+              label={{ value: "21 Abr", position: "insideTopRight", fill: "#f59e0b", fontSize: 11 }} />
+            <Line type="monotone" dataKey="ncs" stroke="#017cb7" strokeWidth={2.5}
+              dot={<ChartDot />} activeDot={{ r: 7, strokeWidth: 2 }} />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Bottom row: callouts + motivos */}
+      <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
+
+        <div className="lg:col-span-2 space-y-3">
+          <div className="border-l-4 border-red-400 bg-red-50 rounded-r-xl px-4 py-3.5">
+            <p className="text-xs font-semibold text-red-500 uppercase tracking-widest mb-1">Problema</p>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Escalada Jan→Mar — pressão operacional impedia o cumprimento de horários.
             </p>
           </div>
-
-          <div className="bg-blue-50 border border-blue-100 rounded-2xl p-8">
-            <div className="flex items-center gap-3 mb-4">
-              <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                <Zap size={16} className="text-[#017cb7]" />
-              </div>
-              <p className="text-[#017cb7] font-semibold text-sm uppercase tracking-widest">
-                A Intervenção · 21 Abril 2026
-              </p>
-            </div>
-            <p className="text-gray-700 text-base leading-relaxed">
-              Foi adicionada uma nova viatura à Linha 90, mantendo a frequência existente.
-              Esta medida aumentou o tempo disponível por percurso, permitindo que as viagens
-              cumprissem os horários sem pressão sobre a frota e{" "}
-              <strong>sem qualquer impacto na frequência para o passageiro</strong>.
+          <div className="border-l-4 border-[#017cb7] bg-blue-50 rounded-r-xl px-4 py-3.5">
+            <p className="text-xs font-semibold text-[#017cb7] uppercase tracking-widest mb-1">Medida · 21 Abr</p>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Nova viatura na linha, mesma frequência — mais tempo por percurso, horários cumpridos.
+            </p>
+          </div>
+          <div className="border-l-4 border-green-500 bg-green-50 rounded-r-xl px-4 py-3.5">
+            <p className="text-xs font-semibold text-green-600 uppercase tracking-widest mb-1">Resultado</p>
+            <p className="text-sm text-gray-600 leading-relaxed">
+              Maio: <strong>27 NCs</strong> — valor mais baixo de todo o período, abaixo de Janeiro.
             </p>
           </div>
         </div>
 
-        {/* Gráfico */}
-        <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm">
-          <h3 className="font-semibold text-gray-800 text-lg mb-1">Evolução mensal — Linha 90</h3>
-          <p className="text-gray-400 text-sm mb-8">
-            Não conformidades por mês. A linha vertical assinala o momento da intervenção.
-          </p>
-          <ResponsiveContainer width="100%" height={300}>
-            <LineChart data={monthlyData} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-              <XAxis dataKey="month" tick={{ fill: "#94a3b8", fontSize: 13 }}
+        <div className="lg:col-span-3 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <h3 className="font-semibold text-gray-800 text-sm mb-0.5">Por motivo</h3>
+          <p className="text-xs text-gray-400 mb-5">Total acumulado · Linha 90</p>
+          <ResponsiveContainer width="100%" height={170}>
+            <BarChart data={MOTIVOS} layout="vertical"
+              margin={{ left: 0, right: 44, top: 0, bottom: 0 }}>
+              <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 11 }}
                 axisLine={false} tickLine={false} />
-              <YAxis tick={{ fill: "#94a3b8", fontSize: 13 }}
-                axisLine={false} tickLine={false} />
-              <Tooltip content={<CustomTooltip />} />
-              <ReferenceLine
-                x="Abr"
-                stroke="#f59e0b"
-                strokeDasharray="5 5"
-                strokeWidth={2}
-                label={{
-                  value: "21 Abr — Nova viatura",
-                  position: "top",
-                  fill: "#f59e0b",
-                  fontSize: 12,
-                  fontWeight: 600,
-                }}
-              />
-              <Line
-                type="monotone"
-                dataKey="ncs"
-                stroke="#017cb7"
-                strokeWidth={2.5}
-                dot={<CustomDot />}
-                activeDot={{ r: 8 }}
-              />
-            </LineChart>
-          </ResponsiveContainer>
-          <div className="flex items-center gap-6 mt-6 justify-center text-xs text-gray-400 flex-wrap">
-            <span className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-full bg-[#017cb7] inline-block" />
-              Antes da intervenção
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-3 h-3 rounded-full bg-green-500 inline-block" />
-              Após a intervenção
-            </span>
-            <span className="flex items-center gap-1.5">
-              <span className="w-6 border-t-2 border-dashed border-amber-400 inline-block" />
-              Data da medida
-            </span>
-          </div>
-        </div>
-
-        {/* Motivos */}
-        <div className="bg-white border border-gray-100 rounded-2xl p-8 shadow-sm">
-          <h3 className="font-semibold text-gray-800 text-lg mb-1">Distribuição por motivo</h3>
-          <p className="text-gray-400 text-sm mb-8">
-            Principais causas das não conformidades na Linha 90 ao longo de todo o período.
-          </p>
-          <ResponsiveContainer width="100%" height={220}>
-            <BarChart data={motivosData} layout="vertical"
-              margin={{ left: 10, right: 60, top: 0, bottom: 0 }}>
-              <CartesianGrid strokeDasharray="3 3" horizontal={false} stroke="#f1f5f9" />
-              <XAxis type="number" tick={{ fill: "#94a3b8", fontSize: 12 }}
-                axisLine={false} tickLine={false} />
-              <YAxis type="category" dataKey="motivo"
-                tick={{ fill: "#64748b", fontSize: 12 }}
-                axisLine={false} tickLine={false} width={180} />
-              <Tooltip cursor={{ fill: "#f8fafc" }} />
-              <Bar dataKey="count" fill="#017cb7" radius={[0, 6, 6, 0]}>
-                <LabelList dataKey="count" position="right" fill="#64748b" fontSize={12} />
+              <YAxis type="category" dataKey="label"
+                tick={{ fill: "#64748b", fontSize: 11 }}
+                axisLine={false} tickLine={false} width={140} />
+              <Bar dataKey="value" radius={[0, 4, 4, 0]}>
+                {MOTIVOS.map((_, i) => (
+                  <Cell key={i}
+                    fill={["#017cb7", "#01a7f4", "#7dd3fc", "#bae6fd"][i]} />
+                ))}
+                <LabelList dataKey="value" position="right"
+                  fill="#94a3b8" fontSize={11} />
               </Bar>
             </BarChart>
           </ResponsiveContainer>
         </div>
 
-        {/* Resultado final */}
-        <div className="bg-[#0f172a] rounded-2xl p-10 text-center">
-          <CheckCircle2 size={36} className="text-green-400 mx-auto mb-4" />
-          <p className="text-white/50 text-xs uppercase tracking-widest mb-3">Resultado</p>
-          <p className="text-white text-xl sm:text-2xl font-semibold max-w-2xl mx-auto leading-relaxed">
-            Em Maio de 2026, a Linha 90 registou o valor mais baixo de não conformidades
-            de todo o período —{" "}
-            <span className="text-green-400 font-bold">27 ocorrências</span>, face a um
-            pico de <span className="text-red-400 font-bold">75 em Março</span>. A adição
-            de uma viatura, sem alterar a frequência, provou ser suficiente para inverter
-            a tendência e estabilizar a linha.
-          </p>
-        </div>
-
       </div>
     </div>
-  );
-}
+  </div>
+);
+
+// ── Main export ───────────────────────────────────────────────────────────────
 
 export default function MelhoriasPage() {
   const [selected, setSelected] = useState(null);
 
-  if (selected === "linha90") {
-    return <Linha90Detail onBack={() => setSelected(null)} />;
-  }
+  if (selected === "linha90") return <Linha90 onBack={() => setSelected(null)} />;
 
   return (
-    <div className="min-h-screen">
-      {/* Hero */}
-      <div className="bg-[#0f172a] text-white py-16">
+    <div>
+      <div className="bg-[#017cb7] text-white py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-[#01a7f4] text-sm font-semibold tracking-widest uppercase mb-3">
-            TUB · Não Conformidades
-          </p>
-          <h1 className="font-['Outfit'] text-4xl sm:text-5xl font-bold mb-4">
-            Melhorias Operacionais
-          </h1>
-          <p className="text-white/50 text-lg max-w-xl">
-            Cada não conformidade é um sinal. Aqui registamos as acções tomadas
-            e os resultados que provam que o sistema funciona.
-          </p>
+          <div className="flex items-center gap-3">
+            <Award size={26} />
+            <div>
+              <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
+                Melhorias Operacionais
+              </h1>
+              <p className="text-white/70 text-sm mt-0.5">Dados que se transformam em acção</p>
+            </div>
+          </div>
         </div>
       </div>
 
-      {/* Cases */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-        <button onClick={() => setSelected("linha90")} className="w-full text-left group">
-          <div className="bg-[#0f172a] rounded-2xl p-8 sm:p-12 hover:bg-[#1e293b] transition-colors duration-300 relative overflow-hidden">
-            <div className="absolute top-6 right-6">
-              <span className="bg-green-500/20 text-green-400 text-xs font-semibold px-3 py-1.5 rounded-full">
-                Concluída
-              </span>
-            </div>
-
-            <div className="flex flex-col sm:flex-row sm:items-end gap-8">
-              <div>
-                <p className="text-white/30 text-xs uppercase tracking-widest mb-2">Linha</p>
-                <p className="text-white font-black text-8xl sm:text-9xl leading-none">90</p>
-              </div>
-              <div className="sm:pb-2">
-                <p className="text-green-400 font-black text-6xl sm:text-7xl leading-none">-64%</p>
-                <p className="text-white/60 text-lg mt-2">de não conformidades</p>
-                <p className="text-white/30 text-sm mt-1">Março → Maio 2026</p>
-              </div>
-              <div className="sm:ml-auto sm:pb-2 flex items-center gap-2 text-[#01a7f4] group-hover:gap-4 transition-all duration-300">
-                <span className="text-sm font-medium">Ver análise completa</span>
-                <ChevronRight size={18} />
-              </div>
-            </div>
-
-            <div className="mt-8 pt-6 border-t border-white/10">
-              <p className="text-white/40 text-sm">
-                Adição de nova viatura mantendo a frequência — aumentando a fiabilidade sem impacto para o passageiro
-              </p>
-            </div>
+      <div className="tub-page-wrapper">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+          <CaseCard onClick={() => setSelected("linha90")} />
+          <div className="rounded-2xl border-2 border-dashed border-gray-200 p-6 flex items-center justify-center text-sm text-gray-300">
+            Em breve
           </div>
-        </button>
+        </div>
       </div>
     </div>
   );
