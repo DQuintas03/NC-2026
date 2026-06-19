@@ -1,6 +1,7 @@
 import { NavLink, Link } from "react-router-dom";
-import { Menu, X } from "lucide-react";
+import { Menu, X, LogOut } from "lucide-react";
 import { useState } from "react";
+import { useAuth } from "../contexts/AuthContext";
 
 const navItems = [
   { label: "Painel Geral", path: "/" },
@@ -12,6 +13,7 @@ const navItems = [
 
 export const Header = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
+  const { logout } = useAuth();
 
   return (
     <header
@@ -62,14 +64,25 @@ export const Header = () => {
             ))}
           </nav>
 
-          {/* Mobile Menu Toggle */}
-          <button
-            data-testid="mobile-menu-toggle"
-            className="md:hidden p-2 rounded-md hover:bg-white/10 transition-colors"
-            onClick={() => setMobileOpen(!mobileOpen)}
-          >
-            {mobileOpen ? <X size={24} /> : <Menu size={24} />}
-          </button>
+          <div className="flex items-center gap-2">
+            <button
+              onClick={logout}
+              title="Terminar sessão"
+              className="hidden md:flex items-center gap-1.5 px-3 py-2 rounded-md text-sm text-white/80 hover:text-white hover:bg-white/10 transition-colors"
+            >
+              <LogOut size={15} />
+              Sair
+            </button>
+
+            {/* Mobile Menu Toggle */}
+            <button
+              data-testid="mobile-menu-toggle"
+              className="md:hidden p-2 rounded-md hover:bg-white/10 transition-colors"
+              onClick={() => setMobileOpen(!mobileOpen)}
+            >
+              {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+            </button>
+          </div>
         </div>
 
         {/* Mobile Nav */}
