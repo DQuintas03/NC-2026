@@ -163,36 +163,49 @@ const Linha90 = ({ onBack }) => (
       {/* Callouts + atrasos */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
 
-        <div className="lg:col-span-2 space-y-3">
-          <div className="border-l-4 border-red-400 bg-red-50 rounded-r-xl px-4 py-3.5">
-            <p className="text-xs font-semibold text-red-500 uppercase tracking-widest mb-1">Problema</p>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              NCs em trajetória ascendente de janeiro a março, com os atrasos como principal fator de contribuição. Fiabilidade em causa.
-            </p>
-          </div>
-          <div className="border-l-4 border-[#017cb7] bg-blue-50 rounded-r-xl px-4 py-3.5">
-            <p className="text-xs font-semibold text-[#017cb7] uppercase tracking-widest mb-1">Medida · 27 Abr</p>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Reforço da linha com nova viatura, mantendo a frequência. O acréscimo de tempo por percurso eleva a fiabilidade no cumprimento dos horários.
-            </p>
-          </div>
-          <div className="border-l-4 border-green-500 bg-green-50 rounded-r-xl px-4 py-4">
-            <p className="text-xs font-semibold text-green-600 uppercase tracking-widest mb-3">Resultado</p>
-            <div className="space-y-2.5">
-              <div className="flex items-center justify-between">
-                <p className="text-xs text-gray-500">Atrasos</p>
-                <div className="flex items-baseline gap-1.5">
-                  <p className="text-xl font-bold text-green-600">0</p>
-                  <p className="text-xs text-gray-400">em maio</p>
+        <div className="lg:col-span-2 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+          <div className="relative pl-6">
+            {/* linha vertical da timeline */}
+            <span className="absolute left-[3px] top-2 bottom-2 w-px bg-gray-100" aria-hidden="true" />
+
+            {/* Problema */}
+            <div className="relative pb-6">
+              <span className="absolute -left-6 top-1 w-2 h-2 rounded-full bg-red-400 ring-4 ring-red-50" aria-hidden="true" />
+              <p className="text-xs font-semibold text-red-500 uppercase tracking-widest mb-1.5">Problema</p>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                NCs em <strong className="text-gray-800">trajetória ascendente</strong> de janeiro a março, com os <strong className="text-gray-800">atrasos</strong> como principal fator de contribuição. <strong className="text-gray-800">Fiabilidade em causa.</strong>
+              </p>
+            </div>
+
+            {/* Medida */}
+            <div className="relative pb-6">
+              <span className="absolute -left-6 top-1 w-2 h-2 rounded-full bg-[#017cb7] ring-4 ring-blue-50" aria-hidden="true" />
+              <p className="text-xs font-semibold text-[#017cb7] uppercase tracking-widest mb-1.5">Medida · 27 Abr</p>
+              <p className="text-sm text-gray-600 leading-relaxed">
+                Reforço da linha com <strong className="text-gray-800">nova viatura</strong>, mantendo a <strong className="text-gray-800">frequência</strong>. O acréscimo de tempo por percurso eleva a <strong className="text-gray-800">fiabilidade</strong> no cumprimento dos horários.
+              </p>
+            </div>
+
+            {/* Resultado */}
+            <div className="relative">
+              <span className="absolute -left-6 top-1 w-2 h-2 rounded-full bg-green-500 ring-4 ring-green-50" aria-hidden="true" />
+              <p className="text-xs font-semibold text-green-600 uppercase tracking-widest mb-3">Resultado</p>
+              <div className="space-y-2.5">
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-gray-500">Atrasos</p>
+                  <div className="flex items-baseline gap-1.5">
+                    <p className="text-xl font-bold text-green-600">0</p>
+                    <p className="text-xs text-gray-400">em maio</p>
+                  </div>
                 </div>
-              </div>
-              <div className="flex items-center justify-between">
-                <p className="text-xs text-gray-500">NCs totais</p>
-                <p className="text-xl font-bold text-gray-700">27</p>
-              </div>
-              <div className="flex items-center justify-between pt-2 border-t border-green-100">
-                <p className="text-xs text-gray-500">Variação face ao pico de março</p>
-                <p className="text-xl font-bold text-green-600">−64%</p>
+                <div className="flex items-center justify-between">
+                  <p className="text-xs text-gray-500">NCs totais</p>
+                  <p className="text-xl font-bold text-green-600">27</p>
+                </div>
+                <div className="flex items-center justify-between pt-2.5 border-t border-gray-100">
+                  <p className="text-xs text-gray-500">Variação face ao pico de março</p>
+                  <p className="text-xl font-bold text-green-600">−64%</p>
+                </div>
               </div>
             </div>
           </div>
@@ -200,9 +213,9 @@ const Linha90 = ({ onBack }) => (
 
         <div className="lg:col-span-3 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
           <h3 className="font-semibold text-gray-800 text-sm mb-0.5">NCs por atrasos — o que a medida resolveu</h3>
-          <p className="text-xs text-gray-400 mb-5">Acertos e faltas causados por atrasos · Maio: zero ocorrências</p>
-          <ResponsiveContainer width="100%" height={170}>
-            <LineChart data={ATRASOS} margin={{ top: 8, right: 20, left: 0, bottom: 0 }}>
+          <p className="text-xs text-gray-400 mb-7">Acertos e faltas causados por atrasos · Maio: zero ocorrências</p>
+          <ResponsiveContainer width="100%" height={230}>
+            <LineChart data={ATRASOS} margin={{ top: 16, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
               <XAxis dataKey="month" tick={{ fill: "#94a3b8", fontSize: 11 }}
                 axisLine={false} tickLine={false} />
@@ -213,7 +226,8 @@ const Linha90 = ({ onBack }) => (
                 formatter={(v, name) => [v, name === "acertos" ? "Acertos" : "Faltas de Circulação"]}
                 labelFormatter={(l) => `${l} 2026`}
               />
-              <ReferenceLine x="Abr" stroke="#f59e0b" strokeDasharray="4 4" strokeWidth={1.5} />
+              <ReferenceLine x="Abr" stroke="#f59e0b" strokeDasharray="4 4" strokeWidth={1.5}
+                label={{ value: "27 Abr", position: "insideTopRight", fill: "#f59e0b", fontSize: 11 }} />
               <ReferenceArea x1="Abr" x2="Mai" fill="#10b981" fillOpacity={0.07} />
               <Line type="monotone" dataKey="acertos" stroke="#017cb7" strokeWidth={2}
                 dot={{ r: 4, fill: "#017cb7", stroke: "white", strokeWidth: 2 }}
