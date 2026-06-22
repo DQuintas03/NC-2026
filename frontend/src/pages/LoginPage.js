@@ -28,43 +28,23 @@ export default function LoginPage() {
     <div className="min-h-screen flex">
 
       {/* Painel esquerdo — identidade TUB */}
-      <div className="hidden lg:flex lg:w-1/2 bg-[#017cb7] flex-col justify-between p-12">
+      <div className="hidden lg:flex lg:w-1/2 bg-[#017cb7] flex-col items-center justify-center gap-6 p-12">
         <img
           src="https://play-lh.googleusercontent.com/iSreCpNE1K9TS5sBX07r6JRtFUVrMrpjbVNlnKavmYJu2cXcKbkoMsc_1uay4yoEQ3M"
           alt="TUB"
-          className="h-14 w-auto object-contain"
+          className="h-16 w-auto object-contain"
         />
-
-        <div>
-          <p className="text-white/50 text-xs uppercase tracking-widest mb-4">
+        <div className="text-center">
+          <p className="text-white/50 text-xs uppercase tracking-widest mb-3">
             Plataforma Operacional
           </p>
-          <h1 className="text-white text-4xl font-bold leading-tight mb-4">
-            Não<br />Conformidades
+          <h1 className="text-white text-4xl font-bold leading-tight mb-3">
+            Não Conformidades
           </h1>
-          <p className="text-white/60 text-base max-w-xs">
-            Monitorização e análise da operação da rede TUB em tempo real.
+          <p className="text-white/60 text-base">
+            Monitorização e análise da operação
           </p>
-
-          <div className="mt-10 flex gap-8">
-            <div>
-              <p className="text-white text-2xl font-bold">3.510</p>
-              <p className="text-white/40 text-xs mt-0.5">registos em 2026</p>
-            </div>
-            <div>
-              <p className="text-white text-2xl font-bold">80</p>
-              <p className="text-white/40 text-xs mt-0.5">linhas monitorizadas</p>
-            </div>
-            <div>
-              <p className="text-white text-2xl font-bold">-64%</p>
-              <p className="text-white/40 text-xs mt-0.5">NCs na Linha 90</p>
-            </div>
-          </div>
         </div>
-
-        <p className="text-white/25 text-xs">
-          Acesso restrito a colaboradores TUB · Transportes Urbanos de Braga
-        </p>
       </div>
 
       {/* Painel direito — formulário */}

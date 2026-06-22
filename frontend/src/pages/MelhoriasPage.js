@@ -23,13 +23,6 @@ const ATRASOS = [
   { month: "Mai", acertos: 0,  faltas: 0 },
 ];
 
-const COMPARISON = [
-  { month: "Jan", linha90: 16,  media: 9.5  },
-  { month: "Fev", linha90: 40,  media: 8.2  },
-  { month: "Mar", linha90: 75,  media: 10.3 },
-  { month: "Abr", linha90: 51,  media: 8.6  },
-  { month: "Mai", linha90: 27,  media: 7.3  },
-];
 
 // ── Micro components ─────────────────────────────────────────────────────────
 
@@ -167,47 +160,6 @@ const Linha90 = ({ onBack }) => (
         </ResponsiveContainer>
       </div>
 
-      {/* Linha 90 vs média da rede */}
-      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
-        <div className="flex items-start justify-between mb-5 flex-wrap gap-3">
-          <div>
-            <h3 className="font-semibold text-gray-800 text-sm">Linha 90 vs média da rede</h3>
-            <p className="text-xs text-gray-400 mt-0.5">NCs/mês · comparação com a média por linha (80 linhas)</p>
-          </div>
-          <span className="text-xs text-gray-400 bg-gray-50 border border-gray-100 rounded-lg px-3 py-1.5">
-            Em março, 7× acima da média · Em maio, diferença reduziu para &lt;4×
-          </span>
-        </div>
-        <ResponsiveContainer width="100%" height={220}>
-          <LineChart data={COMPARISON} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
-            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
-            <XAxis dataKey="month" tick={{ fill: "#94a3b8", fontSize: 12 }}
-              axisLine={false} tickLine={false} />
-            <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }}
-              axisLine={false} tickLine={false} />
-            <Tooltip
-              contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #f1f5f9" }}
-              formatter={(v, name) => [v, name === "linha90" ? "Linha 90" : "Média da rede"]}
-              labelFormatter={(l) => `${l} 2026`}
-            />
-            <ReferenceArea x1="Abr" x2="Mai" fill="#10b981" fillOpacity={0.07} />
-            <ReferenceLine x="Abr" stroke="#f59e0b" strokeDasharray="4 4" strokeWidth={1.5} />
-            <Line type="monotone" dataKey="linha90" stroke="#017cb7" strokeWidth={2.5}
-              dot={{ r: 4, fill: "#017cb7", stroke: "white", strokeWidth: 2 }}
-              activeDot={{ r: 6 }} />
-            <Line type="monotone" dataKey="media" stroke="#94a3b8" strokeWidth={1.5}
-              strokeDasharray="4 4"
-              dot={{ r: 3, fill: "#94a3b8", stroke: "white", strokeWidth: 2 }}
-              activeDot={{ r: 5 }} />
-            <Legend
-              iconType="circle" iconSize={8}
-              formatter={(v) => v === "linha90" ? "Linha 90" : "Média da rede"}
-              wrapperStyle={{ fontSize: 11, color: "#94a3b8", paddingTop: 8 }}
-            />
-          </LineChart>
-        </ResponsiveContainer>
-      </div>
-
       {/* Callouts + atrasos */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
 
@@ -215,20 +167,34 @@ const Linha90 = ({ onBack }) => (
           <div className="border-l-4 border-red-400 bg-red-50 rounded-r-xl px-4 py-3.5">
             <p className="text-xs font-semibold text-red-500 uppercase tracking-widest mb-1">Problema</p>
             <p className="text-sm text-gray-600 leading-relaxed">
-              A Linha 90 acumulou NCs em escalada contínua de janeiro a março, impulsionadas maioritariamente por atrasos de trânsito. A perceção dos clientes era de uma linha pouco fiável — sempre em atraso.
+              NCs em trajetória ascendente de janeiro a março, com os atrasos como principal fator de contribuição. Fiabilidade em causa.
             </p>
           </div>
           <div className="border-l-4 border-[#017cb7] bg-blue-50 rounded-r-xl px-4 py-3.5">
             <p className="text-xs font-semibold text-[#017cb7] uppercase tracking-widest mb-1">Medida · 27 Abr</p>
             <p className="text-sm text-gray-600 leading-relaxed">
-              Nova viatura na linha, mesma frequência. Mais tempo por percurso permite que os motoristas cheguem a horas — sem qualquer impacto para o passageiro.
+              Reforço da linha com nova viatura, mantendo a frequência. O acréscimo de tempo por percurso eleva a fiabilidade no cumprimento dos horários.
             </p>
           </div>
-          <div className="border-l-4 border-green-500 bg-green-50 rounded-r-xl px-4 py-3.5">
-            <p className="text-xs font-semibold text-green-600 uppercase tracking-widest mb-1">Resultado</p>
-            <p className="text-sm text-gray-600 leading-relaxed">
-              Maio: <strong>27 NCs</strong> e <strong>zero atrasos</strong> registados — o valor mais baixo de todo o período.
-            </p>
+          <div className="border-l-4 border-green-500 bg-green-50 rounded-r-xl px-4 py-4">
+            <p className="text-xs font-semibold text-green-600 uppercase tracking-widest mb-3">Resultado</p>
+            <div className="space-y-2.5">
+              <div className="flex items-center justify-between">
+                <p className="text-xs text-gray-500">Atrasos</p>
+                <div className="flex items-baseline gap-1.5">
+                  <p className="text-xl font-bold text-green-600">0</p>
+                  <p className="text-xs text-gray-400">em maio</p>
+                </div>
+              </div>
+              <div className="flex items-center justify-between">
+                <p className="text-xs text-gray-500">NCs totais</p>
+                <p className="text-xl font-bold text-gray-700">27</p>
+              </div>
+              <div className="flex items-center justify-between pt-2 border-t border-green-100">
+                <p className="text-xs text-gray-500">Variação face ao pico de março</p>
+                <p className="text-xl font-bold text-green-600">−64%</p>
+              </div>
+            </div>
           </div>
         </div>
 
