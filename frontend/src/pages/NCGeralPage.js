@@ -14,10 +14,10 @@ export default function NCGeralPage() {
             <BarChart3 size={28} />
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                NC Geral
+                Visão Geral
               </h1>
               <p className="text-white/70 text-sm mt-1">
-                Indicadores gerais de não conformidades
+                Panorama global da operação
               </p>
             </div>
           </div>
@@ -31,7 +31,7 @@ export default function NCGeralPage() {
           ))}
         </div>
 
-        <PowerBIEmbed title="NC Geral" embedUrl={embedUrl} />
+        <PowerBIEmbed title="Visão Geral" embedUrl={embedUrl} />
       </div>
     </div>
   );

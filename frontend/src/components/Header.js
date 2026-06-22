@@ -5,11 +5,11 @@ import { useAuth } from "../contexts/AuthContext";
 
 const navItems = [
   { label: "Painel Geral", path: "/" },
-  { label: "NC Geral", path: "/nc-geral" },
+  { label: "Visão Geral", path: "/nc-geral" },
   { label: "Acertos", path: "/acertos" },
   { label: "Trocas", path: "/trocas" },
   { label: "Faltas de Circulação", path: "/faltas" },
-  { label: "Melhorias", path: "/melhorias" },
+  { label: "Ações de Melhoria", path: "/melhorias" },
 ];
 
 export const Header = () => {

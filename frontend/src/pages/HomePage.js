@@ -130,7 +130,7 @@ export default function HomePage() {
         <div className="flex items-center gap-2 mb-8">
           <BarChart3 size={20} className="text-[#017cb7]" />
           <h2 className="font-['Outfit'] text-xl sm:text-2xl font-semibold text-slate-900">
-            Áreas de Ánalise
+            Áreas de Análise
           </h2>
         </div>
 

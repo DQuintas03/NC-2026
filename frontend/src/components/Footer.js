@@ -28,7 +28,7 @@ export const Footer = () => {
           {/* Quick Links */}
           <div>
             <h4 className="font-['Outfit'] text-sm font-semibold uppercase tracking-wider mb-3 text-white/90">
-              Áreas de Ánalise
+              Áreas de Análise
             </h4>
             <ul className="space-y-2">
               <li>

@@ -15,13 +15,20 @@ const MONTHLY = [
   { month: "Mai", ncs: 27 },
 ];
 
-// Atrasos por tipo — o que a intervenção directamente resolveu
 const ATRASOS = [
-  { month: "Jan", acertos: 1,  faltas: 1  },
-  { month: "Fev", acertos: 8,  faltas: 0  },
-  { month: "Mar", acertos: 17, faltas: 9  },
-  { month: "Abr", acertos: 12, faltas: 4  },
-  { month: "Mai", acertos: 0,  faltas: 0  },
+  { month: "Jan", acertos: 1,  faltas: 1 },
+  { month: "Fev", acertos: 8,  faltas: 0 },
+  { month: "Mar", acertos: 17, faltas: 9 },
+  { month: "Abr", acertos: 12, faltas: 4 },
+  { month: "Mai", acertos: 0,  faltas: 0 },
+];
+
+const COMPARISON = [
+  { month: "Jan", linha90: 16,  media: 9.5  },
+  { month: "Fev", linha90: 40,  media: 8.2  },
+  { month: "Mar", linha90: 75,  media: 10.3 },
+  { month: "Abr", linha90: 51,  media: 8.6  },
+  { month: "Mai", linha90: 27,  media: 7.3  },
 ];
 
 // ── Micro components ─────────────────────────────────────────────────────────
@@ -37,11 +44,10 @@ const Sparkline = ({ data }) => (
 
 const ChartTooltip = ({ active, payload, label }) => {
   if (!active || !payload?.length) return null;
-  const after = label === "Mai";
   return (
     <div className="bg-white border border-gray-100 rounded-lg px-3 py-2 shadow-md">
       <p className="text-gray-400 text-xs mb-0.5">{label} 2026</p>
-      <p className={`font-bold text-sm ${after ? "text-green-600" : "text-[#017cb7]"}`}>
+      <p className={`font-bold text-sm ${label === "Mai" ? "text-green-600" : "text-[#017cb7]"}`}>
         {payload[0].value} NCs
       </p>
     </div>
@@ -61,21 +67,6 @@ const Stat = ({ label, value, color = "text-gray-800", sub }) => (
     {sub && <p className="text-xs text-gray-300 mt-1">{sub}</p>}
   </div>
 );
-
-const Callout = ({ color, label, text }) => {
-  const scheme = {
-    red:   "border-red-400 bg-red-50 text-red-500",
-    blue:  "border-[#017cb7] bg-blue-50 text-[#017cb7]",
-    green: "border-green-500 bg-green-50 text-green-600",
-  }[color];
-  return (
-    <div className={`border-l-4 rounded-r-xl px-4 py-3.5 ${scheme.split(" ").slice(1).join(" ")}`}
-      style={{ borderLeftColor: scheme.split(" ")[0].replace("border-", "").replace("[", "").replace("]", "") }}>
-      <p className={`text-xs font-semibold uppercase tracking-widest mb-1 ${scheme.split(" ").pop()}`}>{label}</p>
-      <p className="text-sm text-gray-600 leading-relaxed">{text}</p>
-    </div>
-  );
-};
 
 // ── Landing card ─────────────────────────────────────────────────────────────
 
@@ -116,14 +107,14 @@ const Linha90 = ({ onBack }) => (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <button onClick={onBack}
           className="flex items-center gap-1.5 text-white/60 hover:text-white text-sm mb-4 transition-colors">
-          <ArrowLeft size={14} /> Melhorias
+          <ArrowLeft size={14} /> Ações de Melhoria
         </button>
         <div className="flex items-end justify-between flex-wrap gap-4">
           <div className="flex items-center gap-3">
             <TrendingDown size={26} />
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">Linha 90</h1>
-              <p className="text-white/70 text-sm mt-0.5">Melhoria operacional · Abril 2026</p>
+              <p className="text-white/70 text-sm mt-0.5">Ação de melhoria · Abril 2026</p>
             </div>
           </div>
           <span className="text-xs font-medium text-green-300 bg-green-900/30 border border-green-700/40 px-3 py-1.5 rounded-full">
@@ -137,13 +128,13 @@ const Linha90 = ({ onBack }) => (
 
       {/* KPI strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
-        <Stat label="Pico · Março"        value="75"     color="text-red-500"    sub="NCs/mês" />
-        <Stat label="Após medida · Maio"  value="27"     color="text-green-600"  sub="NCs/mês" />
-        <Stat label="Redução"             value="-64%"   color="text-[#017cb7]"  sub="do pico a Maio" />
-        <Stat label="Intervenção"         value="21 Abr" color="text-gray-700"   sub="2026" />
+        <Stat label="Pico · Março"        value="75"     color="text-red-500"   sub="NCs/mês" />
+        <Stat label="Após medida · Maio"  value="27"     color="text-green-600" sub="NCs/mês" />
+        <Stat label="Redução"             value="-64%"   color="text-[#017cb7]" sub="do pico a Maio" />
+        <Stat label="Intervenção"         value="27 Abr" color="text-gray-700"  sub="2026" />
       </div>
 
-      {/* Chart */}
+      {/* Evolução mensal */}
       <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
         <div className="flex items-center justify-between mb-5">
           <div>
@@ -169,33 +160,74 @@ const Linha90 = ({ onBack }) => (
             <Tooltip content={<ChartTooltip />} />
             <ReferenceArea x1="Abr" x2="Mai" fill="#10b981" fillOpacity={0.07} />
             <ReferenceLine x="Abr" stroke="#f59e0b" strokeDasharray="4 4" strokeWidth={1.5}
-              label={{ value: "21 Abr", position: "insideTopRight", fill: "#f59e0b", fontSize: 11 }} />
+              label={{ value: "27 Abr", position: "insideTopRight", fill: "#f59e0b", fontSize: 11 }} />
             <Line type="monotone" dataKey="ncs" stroke="#017cb7" strokeWidth={2.5}
               dot={<ChartDot />} activeDot={{ r: 7, strokeWidth: 2 }} />
           </LineChart>
         </ResponsiveContainer>
       </div>
 
-      {/* Bottom row: callouts + motivos */}
+      {/* Linha 90 vs média da rede */}
+      <div className="bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
+        <div className="flex items-start justify-between mb-5 flex-wrap gap-3">
+          <div>
+            <h3 className="font-semibold text-gray-800 text-sm">Linha 90 vs média da rede</h3>
+            <p className="text-xs text-gray-400 mt-0.5">NCs/mês · comparação com a média por linha (80 linhas)</p>
+          </div>
+          <span className="text-xs text-gray-400 bg-gray-50 border border-gray-100 rounded-lg px-3 py-1.5">
+            Em março, 7× acima da média · Em maio, diferença reduziu para &lt;4×
+          </span>
+        </div>
+        <ResponsiveContainer width="100%" height={220}>
+          <LineChart data={COMPARISON} margin={{ top: 10, right: 20, left: 0, bottom: 0 }}>
+            <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
+            <XAxis dataKey="month" tick={{ fill: "#94a3b8", fontSize: 12 }}
+              axisLine={false} tickLine={false} />
+            <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }}
+              axisLine={false} tickLine={false} />
+            <Tooltip
+              contentStyle={{ fontSize: 12, borderRadius: 8, border: "1px solid #f1f5f9" }}
+              formatter={(v, name) => [v, name === "linha90" ? "Linha 90" : "Média da rede"]}
+              labelFormatter={(l) => `${l} 2026`}
+            />
+            <ReferenceArea x1="Abr" x2="Mai" fill="#10b981" fillOpacity={0.07} />
+            <ReferenceLine x="Abr" stroke="#f59e0b" strokeDasharray="4 4" strokeWidth={1.5} />
+            <Line type="monotone" dataKey="linha90" stroke="#017cb7" strokeWidth={2.5}
+              dot={{ r: 4, fill: "#017cb7", stroke: "white", strokeWidth: 2 }}
+              activeDot={{ r: 6 }} />
+            <Line type="monotone" dataKey="media" stroke="#94a3b8" strokeWidth={1.5}
+              strokeDasharray="4 4"
+              dot={{ r: 3, fill: "#94a3b8", stroke: "white", strokeWidth: 2 }}
+              activeDot={{ r: 5 }} />
+            <Legend
+              iconType="circle" iconSize={8}
+              formatter={(v) => v === "linha90" ? "Linha 90" : "Média da rede"}
+              wrapperStyle={{ fontSize: 11, color: "#94a3b8", paddingTop: 8 }}
+            />
+          </LineChart>
+        </ResponsiveContainer>
+      </div>
+
+      {/* Callouts + atrasos */}
       <div className="grid grid-cols-1 lg:grid-cols-5 gap-6">
 
         <div className="lg:col-span-2 space-y-3">
           <div className="border-l-4 border-red-400 bg-red-50 rounded-r-xl px-4 py-3.5">
             <p className="text-xs font-semibold text-red-500 uppercase tracking-widest mb-1">Problema</p>
             <p className="text-sm text-gray-600 leading-relaxed">
-              Escalada Jan→Mar — pressão operacional impedia o cumprimento de horários.
+              A Linha 90 acumulou NCs em escalada contínua de janeiro a março, impulsionadas maioritariamente por atrasos de trânsito. A perceção dos clientes era de uma linha pouco fiável — sempre em atraso.
             </p>
           </div>
           <div className="border-l-4 border-[#017cb7] bg-blue-50 rounded-r-xl px-4 py-3.5">
-            <p className="text-xs font-semibold text-[#017cb7] uppercase tracking-widest mb-1">Medida · 21 Abr</p>
+            <p className="text-xs font-semibold text-[#017cb7] uppercase tracking-widest mb-1">Medida · 27 Abr</p>
             <p className="text-sm text-gray-600 leading-relaxed">
-              Nova viatura na linha, mesma frequência — mais tempo por percurso, horários cumpridos.
+              Nova viatura na linha, mesma frequência. Mais tempo por percurso permite que os motoristas cheguem a horas — sem qualquer impacto para o passageiro.
             </p>
           </div>
           <div className="border-l-4 border-green-500 bg-green-50 rounded-r-xl px-4 py-3.5">
             <p className="text-xs font-semibold text-green-600 uppercase tracking-widest mb-1">Resultado</p>
             <p className="text-sm text-gray-600 leading-relaxed">
-              Maio: <strong>27 NCs</strong> — valor mais baixo de todo o período, abaixo de Janeiro.
+              Maio: <strong>27 NCs</strong> e <strong>zero atrasos</strong> registados — o valor mais baixo de todo o período.
             </p>
           </div>
         </div>
@@ -252,9 +284,9 @@ export default function MelhoriasPage() {
             <Award size={26} />
             <div>
               <h1 className="text-2xl sm:text-3xl font-bold tracking-tight">
-                Melhorias Operacionais
+                Ações de Melhoria
               </h1>
-              <p className="text-white/70 text-sm mt-0.5">Dados que se transformam em acção</p>
+              <p className="text-white/70 text-sm mt-0.5">Dados que se transformam em ação</p>
             </div>
           </div>
         </div>
