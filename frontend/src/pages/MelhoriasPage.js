@@ -17,6 +17,7 @@ const MONTHLY = [
   { month: "Jul", ncs: 15 },
   { month: "Ago", ncs: 16 },
   { month: "Set", ncs: 13 },
+  { month: "Out", ncs: 14 },
 ];
 
 const ATRASOS = [
@@ -29,9 +30,10 @@ const ATRASOS = [
   { month: "Jul", acertos: 0,  faltas: 0 },
   { month: "Ago", acertos: 0,  faltas: 0 },
   { month: "Set", acertos: 0,  faltas: 0 },
+  { month: "Out", acertos: 0,  faltas: 0 },
 ];
 
-const AFTER_MONTHS = ["Mai", "Jun", "Jul", "Ago", "Set"];
+const AFTER_MONTHS = ["Mai", "Jun", "Jul", "Ago", "Set", "Out"];
 
 
 // ── Micro components ─────────────────────────────────────────────────────────
@@ -87,7 +89,7 @@ const CaseCard = ({ onClick }) => (
       </div>
       <div className="flex items-end gap-4">
         <div>
-          <p className="text-3xl font-bold text-green-600">-83%</p>
+          <p className="text-3xl font-bold text-green-600">-81%</p>
           <p className="text-xs text-gray-400 mt-0.5">de não conformidades</p>
           <p className="text-xs text-gray-300 mt-0.5">Abr 2026 · Nova viatura</p>
         </div>
@@ -132,8 +134,8 @@ const Linha90 = ({ onBack }) => (
       {/* KPI strip */}
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         <Stat label="Pico · Março"        value="75"     color="text-red-500"   sub="NCs/mês" />
-        <Stat label="Após medida · Setembro" value="13" color="text-green-600" sub="NCs/mês" />
-        <Stat label="Redução"             value="-83%"   color="text-[#017cb7]" sub="do pico a setembro" />
+        <Stat label="Após medida · Outubro" value="14"  color="text-green-600" sub="NCs/mês" />
+        <Stat label="Redução"             value="-81%"   color="text-[#017cb7]" sub="do pico a outubro" />
         <Stat label="Intervenção"         value="27 Abr" color="text-gray-700"  sub="2026" />
       </div>
 
@@ -142,7 +144,7 @@ const Linha90 = ({ onBack }) => (
         <div className="flex items-center justify-between mb-5">
           <div>
             <h3 className="font-semibold text-gray-800 text-sm">Evolução mensal — Linha 90</h3>
-            <p className="text-xs text-gray-400 mt-0.5">NCs por mês · Jan–Set 2026</p>
+            <p className="text-xs text-gray-400 mt-0.5">NCs por mês · Jan–Out 2026</p>
           </div>
           <div className="flex items-center gap-4 text-xs text-gray-400">
             <span className="flex items-center gap-1.5">
@@ -161,7 +163,7 @@ const Linha90 = ({ onBack }) => (
             <YAxis tick={{ fill: "#94a3b8", fontSize: 12 }}
               axisLine={false} tickLine={false} />
             <Tooltip content={<ChartTooltip />} />
-            <ReferenceArea x1="Abr" x2="Set" fill="#10b981" fillOpacity={0.07} />
+            <ReferenceArea x1="Abr" x2="Out" fill="#10b981" fillOpacity={0.07} />
             <ReferenceLine x="Abr" stroke="#f59e0b" strokeDasharray="4 4" strokeWidth={1.5}
               label={{ value: "27 Abr", position: "insideTopRight", fill: "#f59e0b", fontSize: 11 }} />
             <Line type="monotone" dataKey="ncs" stroke="#017cb7" strokeWidth={2.5}
@@ -205,16 +207,16 @@ const Linha90 = ({ onBack }) => (
                   <p className="text-xs text-gray-500">Atrasos</p>
                   <div className="flex items-baseline gap-1.5">
                     <p className="text-xl font-bold text-green-600">0</p>
-                    <p className="text-xs text-gray-400">mai–set</p>
+                    <p className="text-xs text-gray-400">mai–out</p>
                   </div>
                 </div>
                 <div className="flex items-center justify-between">
-                  <p className="text-xs text-gray-500">NCs em setembro</p>
-                  <p className="text-xl font-bold text-green-600">13</p>
+                  <p className="text-xs text-gray-500">NCs em outubro</p>
+                  <p className="text-xl font-bold text-green-600">14</p>
                 </div>
                 <div className="flex items-center justify-between pt-2.5 border-t border-gray-100">
                   <p className="text-xs text-gray-500">Variação face ao pico de março</p>
-                  <p className="text-xl font-bold text-green-600">−83%</p>
+                  <p className="text-xl font-bold text-green-600">−81%</p>
                 </div>
               </div>
             </div>
@@ -223,7 +225,7 @@ const Linha90 = ({ onBack }) => (
 
         <div className="lg:col-span-3 bg-white rounded-2xl border border-gray-100 shadow-sm p-6">
           <h3 className="font-semibold text-gray-800 text-sm mb-0.5">NCs por atrasos — o que a medida resolveu</h3>
-          <p className="text-xs text-gray-400 mb-7">Acertos e faltas causados por atrasos · maio a setembro: zero ocorrências</p>
+          <p className="text-xs text-gray-400 mb-7">Acertos e faltas causados por atrasos · maio a outubro: zero ocorrências</p>
           <ResponsiveContainer width="100%" height={230}>
             <LineChart data={ATRASOS} margin={{ top: 16, right: 20, left: 0, bottom: 0 }}>
               <CartesianGrid strokeDasharray="3 3" stroke="#f1f5f9" />
@@ -238,7 +240,7 @@ const Linha90 = ({ onBack }) => (
               />
               <ReferenceLine x="Abr" stroke="#f59e0b" strokeDasharray="4 4" strokeWidth={1.5}
                 label={{ value: "27 Abr", position: "insideTopRight", fill: "#f59e0b", fontSize: 11 }} />
-              <ReferenceArea x1="Abr" x2="Set" fill="#10b981" fillOpacity={0.07} />
+              <ReferenceArea x1="Abr" x2="Out" fill="#10b981" fillOpacity={0.07} />
               <Line type="monotone" dataKey="acertos" stroke="#017cb7" strokeWidth={2}
                 dot={{ r: 4, fill: "#017cb7", stroke: "white", strokeWidth: 2 }}
                 activeDot={{ r: 6 }} />
