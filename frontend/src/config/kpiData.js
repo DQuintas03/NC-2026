@@ -37,7 +37,7 @@ const KPI_DATA = {
       { label: "Total Faltas",      value: "178",      icon: "AlertTriangle" },
       { label: "Linha",             value: "Linha 87", icon: "MapPin" },
       { label: "Motorista",         value: "3335",     icon: "User" },
-      { label: "Km's por realizar", value: "903,69",   icon: "TrendingUp" },
+      { label: "Km's por realizar", value: "1607,88", icon: "TrendingUp" },
     ],
   },
 
